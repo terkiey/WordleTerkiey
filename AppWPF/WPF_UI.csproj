@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>WordleTerkiey</AssemblyName>
+    <ApplicationIcon>Assets\Icon\favicon.ico</ApplicationIcon>
+    <Company>Terkiey</Company>
+    <Authors>Terkiey</Authors>
+    <Description>An app for making drawings in Wordle.
+</Description>
+    <PackageIcon>Wordle T.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Wordle T.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Icon\favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icon\Wordle T.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\Icon\Wordle T.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
