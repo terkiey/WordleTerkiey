@@ -7,14 +7,10 @@
         mc:Ignorable="d"
         
         Title="WordleTerkiey" 
-        
-        Height="540" 
-        Width="960"
-        MinHeight="350"
-        MinWidth="500"
-        
-        Icon="/Assets/Icon/Wordle T.png"
-        >
+        Height="540" Width="960"    
+        MinHeight="350" MinWidth="500"
+        Icon="/Assets/Icon/Wordle T.png">
+
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF313648"/>
@@ -30,5 +26,16 @@
             <ColumnDefinition x:Name="MainUI" />
         </Grid.ColumnDefinitions>
 
+        <Border x:Name="Sidebar" Grid.Row="0" Grid.Column="1" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="0,0,2,0">
+            <StackPanel x:Name="Sidebar_Button_Panel" Margin="5,5,5,5">
+                <Button x:Name="Clear_Button" Style="{StaticResource SideBarButtonStyle}">
+                    <Image Source="/Assets/Buttons/Clear.png" Stretch="Uniform"/>
+                </Button>
+                <Button x:Name="Color_Cycle_Button" Style="{StaticResource SideBarButtonStyle}">
+                    
+                </Button>
+
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Clear.png" />
     <None Remove="Wordle T.png" />
   </ItemGroup>
 
@@ -25,6 +26,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\Icon\Wordle T.png" />
+    <Resource Include="Assets\Buttons\Clear.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
