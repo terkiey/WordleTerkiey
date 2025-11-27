@@ -16,9 +16,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Buttons\Lock.png" />
+    <None Remove="Assets\Buttons\Solve.png" />
     <None Remove="Assets\Placeholder.png" />
     <None Remove="Clear.png" />
     <None Remove="Wordle T.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Colors.xaml" />
+    <Page Remove="Styles.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,13 +33,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\Icon\Wordle T.png" />
+    <Resource Include="Assets\Buttons\Lock.png" />
+    <Resource Include="Assets\Buttons\Solve.png" />
+    <Resource Include="Assets\Icon\Wordle T.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Buttons\Clear.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Placeholder.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Colors.xaml" />
+    <Resource Include="Styles.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +53,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

@@ -22,23 +22,11 @@
     <Grid x:Name="BaseGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition x:Name="Buttons" Width="80"/>
-            <ColumnDefinition x:Name="MainUI" />
+            <ColumnDefinition x:Name="Sidebar" Width="80"/>
+            <ColumnDefinition x:Name="DrawingArea" Width="*"/>
+            <ColumnDefinition x:Name="SolutionsBrowser" Width="300" />
         </Grid.ColumnDefinitions>
 
-        <Border x:Name="Sidebar" Grid.Row="0" Grid.Column="1" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="0,0,2,0">
-            <StackPanel x:Name="Sidebar_Button_Panel" Margin="5,5,5,5">
-                <Button x:Name="Clear_Button" Style="{StaticResource SideBarButtonStyle}" ToolTip="Clear Grid   Shortcut: 1">
-                    <Image Source="/Assets/Buttons/Clear.png" Stretch="Uniform"/>
-                </Button>
-                <Button x:Name="Color_Cycle_Button" Style="{StaticResource SideBarButtonStyle}" ToolTip="Cycle Color    Shortcut: 2">
-                    
-                </Button>
-                <Button x:Name="Solve_Button" Style="{StaticResource SideBarButtonStyle}" ToolTip="Solve    Shortcut: 3">
-                    
-                </Button>
-
-            </StackPanel>
-        </Border>
+        <local:SidebarControl Grid.Row="0" Grid.Column="1" DataContext="{Binding SidebarViewModel}" />
     </Grid>
 </Window>

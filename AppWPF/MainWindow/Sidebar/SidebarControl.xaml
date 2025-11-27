@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="AppWPF.SidebarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppWPF"
+             mc:Ignorable="d">
+
+    <Border x:Name="Sidebar" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="0,0,2,0"
+         DataContext="{Binding SidebarViewModel}">
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel x:Name="Sidebar_Button_Panel" Grid.Row="0" Margin="5,5,5,5">
+
+                <Button x:Name="Clear_Button" Style="{StaticResource SideBarButtonStyle}" 
+                         ToolTip="Clear Grid   Shortcut: 1"
+                         Command="{Binding ClearCommand}">
+                    <Image Source="/Assets/Buttons/Clear.png" Stretch="Uniform"/>
+                </Button>
+                <Button x:Name="Color_Cycle_Button"
+                         ToolTip="Cycle Color    Shortcut: 2"
+                         Height="50"
+                         Width="50"
+                         Margin="0,0,0,10"
+                         Cursor="Hand"
+                         Command="{Binding ColorCycleCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StatusColor}" Value="Yellow">
+                                    <Setter Property="Background" Value="{StaticResource WordleYellowBrush}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding StatusColor}" Value="Green">
+                                    <Setter Property="Background" Value="{StaticResource WordleGreenBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="Solve_Button" Style="{StaticResource SideBarButtonStyle}" 
+                         ToolTip="Solve    Shortcut: 3"
+                         Command="{Binding SolveCommand}">
+                    <Image Source="/Assets/Buttons/Solve.png" Stretch="Uniform"/>
+                </Button>
+            </StackPanel>
+
+            <Button Grid.Row="1" Style="{StaticResource SideBarButtonStyle}"
+                    ToolTip="Custom Word" 
+                    Command="{Binding CustomWordCommand}"/>
+        </Grid>
+    </Border>
+    
+</UserControl>

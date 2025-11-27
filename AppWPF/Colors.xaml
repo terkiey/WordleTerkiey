@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <Color x:Key="WordleGreen">#538D4E</Color>
+    <Color x:Key="WordleYellow">#B59F3B</Color>
+
+    <SolidColorBrush x:Key="WordleGreenBrush" Color="{StaticResource WordleGreen}"/>
+    <SolidColorBrush x:Key="WordleYellowBrush" Color="{StaticResource WordleYellow}"/>
+</ResourceDictionary>
