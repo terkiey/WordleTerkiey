@@ -2,7 +2,7 @@
 
 public enum BoxColor
 {
-Black = 0,
-Yellow = 1,
-Green = 2
+    Black = 0,
+    Yellow = 1,
+    Green = 2
 }
