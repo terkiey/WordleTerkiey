@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:AppWPF"
              mc:Ignorable="d">
 
-    <Border x:Name="Sidebar" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="0,0,2,0"
-         DataContext="{Binding SidebarViewModel}">
+    <Border x:Name="Sidebar" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="0,0,2,0">
         
         <Grid>
             <Grid.RowDefinitions>
