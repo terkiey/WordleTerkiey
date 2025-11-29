@@ -25,7 +25,7 @@ public class WordleBoard : IEquatable<WordleBoard>
         return true;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return Equals(obj as WordleBoard);
     }

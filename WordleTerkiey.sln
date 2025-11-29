@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppWPF", "AppWPF\AppWPF.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D45859DF-19DC-4C0E-87DD-1A182540AC1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordleSolver", "WordleSolver\WordleSolver.csproj", "{C090CE41-AC3D-467E-BDF2-A723F1216FAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D45859DF-19DC-4C0E-87DD-1A182540AC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D45859DF-19DC-4C0E-87DD-1A182540AC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D45859DF-19DC-4C0E-87DD-1A182540AC1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C090CE41-AC3D-467E-BDF2-A723F1216FAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C090CE41-AC3D-467E-BDF2-A723F1216FAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C090CE41-AC3D-467E-BDF2-A723F1216FAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C090CE41-AC3D-467E-BDF2-A723F1216FAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
