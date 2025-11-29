@@ -4,5 +4,5 @@ namespace AppWPF;
 
 public interface ISidebarViewModel : INotifyPropertyChanged
 {
-    public event EventHandler<ColorState>? ColorCycled;
+    public event EventHandler<BoxColor>? ColorCycled;
 }
