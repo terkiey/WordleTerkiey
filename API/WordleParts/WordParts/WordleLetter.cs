@@ -1,4 +1,4 @@
-﻿namespace CoreObjects;
+﻿namespace API;
 
 public class WordleLetter : IEquatable<WordleLetter>, IEquatable<char>, IEquatable<string>
 {

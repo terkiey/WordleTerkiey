@@ -1,4 +1,4 @@
-﻿namespace CoreObjects;
+﻿namespace API;
 
 public class WordleBoard : IEquatable<WordleBoard>
 {

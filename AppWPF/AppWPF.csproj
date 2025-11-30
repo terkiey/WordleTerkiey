@@ -61,7 +61,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\API\API.csproj" />
-    <ProjectReference Include="..\CoreObjects\CoreObjects.csproj" />
   </ItemGroup>
 
 </Project>

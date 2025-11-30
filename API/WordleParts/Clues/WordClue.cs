@@ -1,4 +1,4 @@
-﻿namespace CoreObjects;
+﻿namespace API;
 
 public class WordClue : IEquatable<WordClue>
 {

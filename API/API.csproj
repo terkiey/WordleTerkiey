@@ -11,14 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreObjects\CoreObjects.csproj" />
-    <ProjectReference Include="..\WordleSolver\WordleSolver.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Dictionary\GuessableWords\guessableWords.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SolverLogic\" />
   </ItemGroup>
 
 </Project>
