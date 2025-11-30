@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreObjects", "CoreObjects\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordleSolver", "WordleSolver\WordleSolver.csproj", "{C090CE41-AC3D-467E-BDF2-A723F1216FAC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{3798C102-FFEF-45E4-BBCB-5982195B48D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C090CE41-AC3D-467E-BDF2-A723F1216FAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C090CE41-AC3D-467E-BDF2-A723F1216FAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C090CE41-AC3D-467E-BDF2-A723F1216FAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3798C102-FFEF-45E4-BBCB-5982195B48D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3798C102-FFEF-45E4-BBCB-5982195B48D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3798C102-FFEF-45E4-BBCB-5982195B48D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3798C102-FFEF-45E4-BBCB-5982195B48D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

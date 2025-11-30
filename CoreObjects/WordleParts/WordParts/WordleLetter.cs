@@ -1,4 +1,4 @@
-﻿namespace Domain;
+﻿namespace CoreObjects;
 
 public class WordleLetter : IEquatable<WordleLetter>, IEquatable<char>, IEquatable<string>
 {

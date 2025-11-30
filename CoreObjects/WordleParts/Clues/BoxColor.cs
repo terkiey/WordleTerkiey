@@ -1,4 +1,4 @@
-﻿namespace Domain;
+﻿namespace CoreObjects;
 
 public enum BoxColor
 {
