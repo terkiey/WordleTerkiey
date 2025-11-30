@@ -49,7 +49,7 @@
             </StackPanel>
 
             <Button Grid.Row="1" Style="{StaticResource SideBarButtonStyle}"
-                    ToolTip="Custom Word" 
+                    ToolTip="Define Answer Word" 
                     Command="{Binding CustomWordCommand}"/>
         </Grid>
     </Border>

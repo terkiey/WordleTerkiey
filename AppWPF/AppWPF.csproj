@@ -60,7 +60,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\API\API.csproj" />
+    <ProjectReference Include="..\CoreObjects\CoreObjects.csproj" />
   </ItemGroup>
 
 </Project>
