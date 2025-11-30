@@ -1,6 +1,4 @@
-﻿using API;
-
-namespace API;
+﻿namespace API;
 
 internal interface IGuessableWordService
 {

@@ -1,8 +1,6 @@
-﻿using API;
+﻿namespace API;
 
-namespace API;
-
-public interface IWordleDictionary
+internal interface IWordleDictionary
 {
     HashSet<WordleWord> AllowedWords { get; }
 }
