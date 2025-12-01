@@ -66,4 +66,20 @@ public class WordleWord : IEquatable<WordleWord>, IEquatable<string>
 
         return hash.ToHashCode();
     }
+
+    public WordleLetter this[int index]
+    {
+        get => WordleLetters[index];
+        set => WordleLetters[index] = value;
+    }
+
+    public override string ToString()
+    {
+        string output = "";
+        for (int i = 0; i < 5; i++)
+        {
+            output += WordleLetters[i].ToString();
+        }
+        return output;
+    }
 }

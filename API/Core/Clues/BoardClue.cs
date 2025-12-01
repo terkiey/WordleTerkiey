@@ -29,4 +29,10 @@ public class BoardClue : IEquatable<BoardClue>
         }
         return hash.ToHashCode();
     }
+
+    public WordClue this[int index]
+    {
+        get => WordClues[index];
+        set => WordClues[index] = value;
+    }
 }

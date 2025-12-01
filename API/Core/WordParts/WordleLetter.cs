@@ -1,4 +1,6 @@
-﻿namespace API;
+﻿using System.Xml;
+
+namespace API;
 
 public class WordleLetter : IEquatable<WordleLetter>, IEquatable<char>, IEquatable<string>
 {
@@ -51,5 +53,12 @@ public class WordleLetter : IEquatable<WordleLetter>, IEquatable<char>, IEquatab
     public override int GetHashCode()
     {
         return Value.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        string output = "";
+        output += Value.ToString();
+        return output;
     }
 }

@@ -42,4 +42,10 @@ public class WordleBoard : IEquatable<WordleBoard>
 
         return hash.ToHashCode();
     }
+
+    public WordleWord this[int index]
+    {
+        get => WordleWords[index];
+        set => WordleWords[index] = value;
+    }
 }

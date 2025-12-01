@@ -16,8 +16,4 @@
     </Resource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SolverLogic\" />
-  </ItemGroup>
-
 </Project>

@@ -5,34 +5,26 @@ internal class WordleDictionary : IWordleDictionary
     private readonly IGuessableWordService _guessableWordService;
     private readonly IAnswerWordService _answerWordService;
 
-    public HashSet<WordleWord> AllowedWords { get; init; } = [];
+    public HashSet<WordleWord> AllowedWords { get; private set; }
+    public WordleWord AnswerWord { get; private set; }
     public WordleDictionary(IGuessableWordService guessableWordService, IAnswerWordService answerWordService)
     {
         _guessableWordService = guessableWordService;
         _answerWordService = answerWordService;
 
-        InitialiseAllowedWords();
-        InitialiseSubscriptions();
+        AllowedWords = _guessableWordService.GuessableWords;
+        AnswerWord = _answerWordService.Answer;
+        _answerWordService.AnswerWordChanged += HandleAnswerWordChanged;
     }
 
-    private void InitialiseAllowedWords()
+    public void UpdateAnswerWord(WordleWord answerWord)
     {
-        HashSet<WordleWord> guessableWords = _guessableWordService.GuessableWords;
-        foreach (WordleWord word in guessableWords)
-        {
-            AllowedWords.Add(word);
-        }
-
-        WordleWord answerWord = _answerWordService.Answer;
+        _answerWordService.Answer = answerWord;
     }
 
-    private void UpdateAllowedWords(object? sender, WordleWord newAnswer)
+    private void HandleAnswerWordChanged(object? sender, WordleWord answerWord)
     {
-        AllowedWords.Add(newAnswer);
-    }
-
-    private void InitialiseSubscriptions()
-    {
-        _answerWordService.AnswerWordChanged += UpdateAllowedWords;
+        AnswerWord = answerWord;
+        AllowedWords.Add(answerWord);
     }
 }

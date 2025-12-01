@@ -14,7 +14,19 @@ public static class API_DI
             var guessableWordService = sp.GetRequiredService<IGuessableWordService>();
             var answerWordService = sp.GetRequiredService<IAnswerWordService>();
             return new WordleDictionary(guessableWordService, answerWordService);
-        }
+        });
+
+        services.AddSingleton<IDrawingSolver, DrawingSolver>(sp =>
+        {   
+            var wordleDictionary = sp.GetRequiredService<IWordleDictionary>();
+            return new DrawingSolver(wordleDictionary);
+        });
+
+        services.AddSingleton<IWordleEngine, WordleEngine>(sp =>
+        {
+            var drawingSolver = sp.GetRequiredService<IDrawingSolver>();
+            return new WordleEngine(drawingSolver);
+        });
 
         return services;
     }
