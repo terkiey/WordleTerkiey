@@ -11,7 +11,7 @@ internal class GuessableWordService : IGuessableWordService
     private static HashSet<WordleWord> ReadTxtWords()
     {
         HashSet<WordleWord> guessableWords = [];
-        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "guessableWords.txt");
+        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Dictionary", "GuessableWords", "guessableWords.txt");
         string text = File.ReadAllText(path);
 
         string[] words = text.Split(' ');

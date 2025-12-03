@@ -13,6 +13,8 @@ public static class WPF_DI
         services.AddSingleton<ISolutionsBrowserViewModel, SolutionsBrowserViewModel>();
         services.AddSingleton<IDrawingPanelViewModel, DrawingPanelViewModel>();
 
+        services.AddSingleton<ISolutionToExampleMapper, SolutionToExampleMapper>();
+
         services.AddSingleton<IMainWindowViewModel, MainWindowViewModel>();
         services.AddSingleton<MainWindow>();
 

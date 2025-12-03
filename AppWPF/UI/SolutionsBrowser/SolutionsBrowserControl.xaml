@@ -6,8 +6,11 @@
              xmlns:local="clr-namespace:AppWPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    
+
+    <UserControl.Resources>
+        <local:BoxColorToBrushConverter x:Key="BoxColorConverter"/>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TitleBar" Height="50"/>
@@ -16,7 +19,7 @@
             <RowDefinition x:Name="MissOneMatches" Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" x:Name="TitleBarBorder" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="2,0,0,2">
+        <Border Grid.Row="0" x:Name="TitleBarBorder" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="2,0,0,2">
             <TextBlock Text="Solutions" 
                        Foreground="{StaticResource WordleWhiteBrush}"
                        FontSize="32" 
@@ -26,14 +29,15 @@
                        />
         </Border>
 
-        <Border Grid.Row="1" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="2,0,0,2">
+        <Border Grid.Row="1" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="2,0,0,2">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" 
+                <TextBlock Grid.Column="0"
                            Text="Exact Matches"
                            Foreground="{StaticResource WordleWhiteBrush}"
                            FontSize="24"
@@ -44,15 +48,44 @@
                            TextWrapping="Wrap"
                            />
 
-                <UniformGrid Grid.Column="1" Columns="5" Rows="6">
-                    
-                </UniformGrid>
-            </Grid>
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding exactSolutionExample.Words}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="6"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-            
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontSize="12" Foreground="{StaticResource WordleWhiteBrush}"
+                                HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+                
+                <ItemsControl Grid.Column="2" ItemsSource="{Binding exactSolutionExample.Colors}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="6" Columns="5"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                BorderBrush="{StaticResource WordleBorderBrush}"
+                                BorderThickness="1"
+                                Background="{Binding Color, Converter={StaticResource BoxColorConverter}}">
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+            </Grid>
         </Border>
 
-        <Border Grid.Row="2" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="2,0,0,2">
+        <Border Grid.Row="2" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="2,0,0,2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -74,11 +107,9 @@
 
                 </UniformGrid>
             </Grid>
-
-
         </Border>
 
-        <Border Grid.Row="3" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="2,0,0,2">
+        <Border Grid.Row="3" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="2,0,0,2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -100,9 +131,7 @@
 
                 </UniformGrid>
             </Grid>
-
-
         </Border>
-
+        
     </Grid>
 </UserControl>

@@ -25,7 +25,8 @@ public static class API_DI
         services.AddSingleton<IWordleEngine, WordleEngine>(sp =>
         {
             var drawingSolver = sp.GetRequiredService<IDrawingSolver>();
-            return new WordleEngine(drawingSolver);
+            var wordleDictionary = sp.GetRequiredService<IWordleDictionary>();
+            return new WordleEngine(drawingSolver, wordleDictionary);
         });
 
         return services;

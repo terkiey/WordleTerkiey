@@ -3,4 +3,5 @@
 internal interface IDrawingSolver
 {
     DrawingSolutionDTO Solve(BoardClue userDrawing);
+    DrawingValidation ValidateDrawing(BoardClue userDrawing);
 }

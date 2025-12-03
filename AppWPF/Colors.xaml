@@ -6,9 +6,11 @@
     <Color x:Key="WordleYellow">#B59F3B</Color>
     <Color x:Key="WordleWhite">#F8F8F8</Color>
     <Color x:Key="WordleBlack">#121213</Color>
+    <Color x:Key="WordleBorder">#424242</Color>
 
     <SolidColorBrush x:Key="WordleGreenBrush" Color="{StaticResource WordleGreen}"/>
     <SolidColorBrush x:Key="WordleYellowBrush" Color="{StaticResource WordleYellow}"/>
     <SolidColorBrush x:Key="WordleWhiteBrush" Color="{StaticResource WordleWhite}"/>
     <SolidColorBrush x:Key="WordleBlackBrush" Color="{StaticResource WordleBlack}"/>
+    <SolidColorBrush x:Key="WordleBorderBrush" Color="{StaticResource WordleBorder}"/>
 </ResourceDictionary>

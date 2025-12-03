@@ -7,10 +7,12 @@ internal class DrawingSolver : IDrawingSolver
     private readonly IWordleDictionary _wordleDictionary;
     public WordleWord AnswerWord => _wordleDictionary.AnswerWord;
     public HashSet<WordleWord> GuessableWords => _wordleDictionary.AllowedWords;
+    private Dictionary<WordClue, HashSet<WordleWord>> CachedSolutions = [];
 
     public DrawingSolver(IWordleDictionary wordleDictionary)
     {
         _wordleDictionary = wordleDictionary;
+        _wordleDictionary.AnswerWordChanged += AnswerChangedHandler;
     }
 
     public DrawingSolutionDTO Solve(BoardClue userDrawing)
@@ -22,17 +24,29 @@ internal class DrawingSolver : IDrawingSolver
             return new(validate, categorySolutions);
         }
 
-        CategorySolutionResult exactMatchSolution = ExactSolve(userDrawing);
-        /*
-        CategorySolutionResult shapeMatchSolution = ShapeSolve(userDrawing);
-        CategorySolutionResult missOneMatchSolution = MissOneSolve(userDrawing);
-        */
+        List<Solution> _solutionList = [];
+        CategorySolutionResult _categorySolution;
 
-        categorySolutions.Add(exactMatchSolution);
+        // Record exact solution.
+        Solution exactSolution = ExactSolve(userDrawing);
+        _solutionList.Add(exactSolution);
+        _categorySolution = new(SolutionType.Exact, _solutionList.ToList());
+        categorySolutions.Add(_categorySolution);
+        _solutionList.Clear();
+
+        // Record shape solution.
         /*
-        categorySolutions.Add(shapeMatchSolution);
-        categorySolutions.Add(missOneMatchSolution);
-        */
+        _solutionList = ShapeSolve(userDrawing);
+        _categorySolution = new(SolutionType.Shape, _solutionList);
+        categorySolutions.Add(_categorySolution);
+        _solutionList.Clear(); */
+
+        // record MissOne solution.
+        /*
+        _solutionList = MissOneSolve(userDrawing);
+        _categorySolution = new(SolutionType.MissOne, _solutionList);
+        categorySolutions.Add(_categorySolution);
+        _solutionList.Clear(); */
 
         return new(validate, categorySolutions);
     }
@@ -73,26 +87,50 @@ internal class DrawingSolver : IDrawingSolver
     }
 
     // TODO_LOW: This will need to create a list of rows it wants to make, make them, and then construct solutions from the combinations of row solutions.
-    private CategorySolutionResult MissOneSolve(BoardClue userDrawing)
+    private List<Solution> MissOneSolve(BoardClue userDrawing)
     {
         throw new NotImplementedException();
     }
 
     // TODO_LOW: This will need to create a list of rows it wants to make, make them, and then construct solutions from the combinations of row solutions.
-    private CategorySolutionResult ShapeSolve(BoardClue userDrawing)
+    private List<Solution> ShapeSolve(BoardClue userDrawing)
     {
         throw new NotImplementedException();
+        // Create all possible boards that have the same colored shape, but with some greens replaced with yellow.
+        for (int wordIndex = 0; wordIndex < 6; wordIndex++)
+        {
+            WordClue wordDrawing = userDrawing[wordIndex];
+            for (int letterIndex = 0; letterIndex < 5; letterIndex++)
+            {
+                BoxColor letterDrawing = wordDrawing[letterIndex];
+                if (letterDrawing == BoxColor.Green)
+                {
+                    
+                }
+            }
+        }
+
     }
 
     // TODO_LOW: Make this re-use solutions if multiple rows have same value.
-    private CategorySolutionResult ExactSolve(BoardClue userDrawing)
+    private Solution ExactSolve(BoardClue userDrawing)
     {
         string[] regexConditions = new string[6];
+        SolutionWords solutionWords = new();
         
-        // Create regex conditions for check on guessable words
+        // Loop over rows (word drawings).
         for (int rowIndex = 0; rowIndex < 6; rowIndex++)
         {  
             WordClue rowDrawing = userDrawing[rowIndex];
+            // Check cache for the rowDrawing and just use that as the solution words if present.
+            HashSet<WordleWord>? cachedWords;
+            if (CachedSolutions.TryGetValue(rowDrawing, out cachedWords))
+            {
+                solutionWords[rowIndex] = cachedWords;
+                continue;
+            }
+
+            // Create regex conditions for check on guessable words
             HashSet<char> greenedOut = GreenedOut(rowDrawing);
 
             string regexInternal = "";
@@ -102,25 +140,16 @@ internal class DrawingSolver : IDrawingSolver
             }
 
             regexConditions[rowIndex] = "^" + regexInternal + "$";
-        }
 
-        // Check guessable words for words that match conditions
-        SolutionWords solutionWords = new();
-        for (int rowIndex = 0; rowIndex < 6; rowIndex++)
-        {
+            // Check guessable words for words that match conditions, and add result to cache.
             string condition = regexConditions[rowIndex];
             solutionWords[rowIndex] = GuessableWords
                                                 .Where(s => Regex.IsMatch(s.ToString(), condition))
                                                 .ToHashSet();
+            CachedSolutions.Add(rowDrawing, solutionWords[rowIndex]);
         }
 
-
-        SolutionType solutionType = SolutionType.Exact;
-        List<Solution> solutions = [];
-
-        Solution solution = new(userDrawing, solutionWords);
-        solutions.Add(solution);
-        return new(solutionType, solutions);
+        return new Solution(userDrawing, solutionWords);
     }
 
     private string GreenRegex(int letterIndex)
@@ -164,6 +193,7 @@ internal class DrawingSolver : IDrawingSolver
         }
     }
 
+    // TODO_HIGH: LETTERS CAN BE YELLOWED OUT TOO!!!! INCORPORATE INTO THIS FUNCTION!
     private HashSet<char> GreenedOut(WordClue wordDrawing)
     {
         
@@ -213,5 +243,11 @@ internal class DrawingSolver : IDrawingSolver
         }
 
         return greenedOut;
+    }
+
+    // Event Handlers
+    private void AnswerChangedHandler(object? sender, WordleWord answerWord)
+    {
+        CachedSolutions.Clear();
     }
 }

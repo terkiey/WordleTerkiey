@@ -4,9 +4,12 @@ internal class WordleDictionary : IWordleDictionary
 {
     private readonly IGuessableWordService _guessableWordService;
     private readonly IAnswerWordService _answerWordService;
-
+    
     public HashSet<WordleWord> AllowedWords { get; private set; }
     public WordleWord AnswerWord { get; private set; }
+
+    public event EventHandler<WordleWord>? AnswerWordChanged;
+
     public WordleDictionary(IGuessableWordService guessableWordService, IAnswerWordService answerWordService)
     {
         _guessableWordService = guessableWordService;
@@ -26,5 +29,6 @@ internal class WordleDictionary : IWordleDictionary
     {
         AnswerWord = answerWord;
         AllowedWords.Add(answerWord);
+        AnswerWordChanged?.Invoke(this, answerWord);
     }
 }

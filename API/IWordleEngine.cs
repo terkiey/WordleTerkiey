@@ -2,5 +2,10 @@
 
 public interface IWordleEngine
 {
-    DrawingSolutionDTO SolveDrawing(BoardClue userDrawing);
+    event EventHandler<WordleWord>? AnswerWordChanged;
+    event EventHandler<DrawingSolutionDTO>? SolutionsReady;
+
+    void SolveDrawing(BoardClue userDrawing);
+    DrawingValidation ValidateDrawing(BoardClue userDrawing);
+    void ChangeAnswer(WordleWord customAnswer);
 }

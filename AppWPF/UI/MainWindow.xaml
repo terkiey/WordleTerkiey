@@ -27,7 +27,8 @@
             <ColumnDefinition x:Name="SolutionsBrowser" Width="5*" />
         </Grid.ColumnDefinitions>
 
-        <local:SidebarControl Grid.Row="0" Grid.Column="1" DataContext="{Binding SidebarViewModel}" />
-        <local:SolutionsBrowserControl Grid.Row="0" Grid.Column="3" DataContext="{Binding SolutionsBrowserViewModel}"/>
+        <local:SidebarControl Grid.Row="0" Grid.Column="1" DataContext="{Binding SidebarVM}" />
+        <local:DrawingPanelControl Grid.Row="0" Grid.Column="2" DataContext="{Binding DrawingPanelVM}"/>
+        <local:SolutionsBrowserControl Grid.Row="0" Grid.Column="3" DataContext="{Binding SolutionsBrowserVM}"/>
     </Grid>
 </Window>

@@ -13,7 +13,7 @@ public class WordleWord : IEquatable<WordleWord>, IEquatable<string>
     {
         if (word.Length != 5)
         {
-            throw new ArgumentOutOfRangeException(nameof(word), "WordleWords must be 5 letters long.");
+            throw new ArgumentOutOfRangeException(nameof(word), $"WordleWords must be 5 letters long. Culprit = {word}");
         }
 
         int arrayIndex = 0;

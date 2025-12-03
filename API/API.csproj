@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Dictionary\GuessableWords\guessableWords.txt">
+    <Content Include="Dictionary\GuessableWords\guessableWords.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
 </Project>

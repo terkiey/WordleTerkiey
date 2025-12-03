@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:AppWPF"
              mc:Ignorable="d">
 
-    <Border x:Name="Sidebar" Background="#FF333644" BorderBrush="#FF1D1F27" BorderThickness="0,0,2,0">
+    <Border x:Name="Sidebar" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="0,0,2,0">
         
         <Grid>
             <Grid.RowDefinitions>
@@ -31,10 +31,10 @@
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding StatusColor}" Value="Yellow">
+                                <DataTrigger Binding="{Binding ColorPicker}" Value="Yellow">
                                     <Setter Property="Background" Value="{StaticResource WordleYellowBrush}" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding StatusColor}" Value="Green">
+                                <DataTrigger Binding="{Binding ColorPicker}" Value="Green">
                                     <Setter Property="Background" Value="{StaticResource WordleGreenBrush}" />
                                 </DataTrigger>
                             </Style.Triggers>

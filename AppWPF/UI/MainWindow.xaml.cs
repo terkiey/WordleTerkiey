@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 
 namespace AppWPF;
 
@@ -11,5 +12,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = viewModel;
+
     }
 }

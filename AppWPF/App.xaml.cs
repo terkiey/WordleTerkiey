@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.ServiceProcess;
 using System.Windows;
-using System.Xaml;
 
 namespace AppWPF;
 
