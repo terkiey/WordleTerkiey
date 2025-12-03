@@ -8,6 +8,10 @@ public class SolutionWords
 
     public SolutionWords()
     {
+        for (int row = 0; row < 6; row++)
+        {
+            Words[row] = [];
+        }
     }
 
     public HashSet<WordleWord> this[int index]

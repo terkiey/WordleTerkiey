@@ -62,14 +62,16 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
                 exactExampleUpdated = true;
             }
 
-            if(categorySolution.category == SolutionType.Shape && shapeSolutionExample.Colors == default)
+            if(categorySolution.category == SolutionType.Shape && shapeExampleUpdated == false)
             {
                 UpdateExample(SolutionType.Shape, categorySolution.solutions[0]);
+                shapeExampleUpdated = true;
             }
 
-            if(categorySolution.category == SolutionType.MissOne && missOneSolutionExample.Colors == default)
+            if(categorySolution.category == SolutionType.MissOne && missOneExampleUpdated == false)
             {
                 UpdateExample(SolutionType.MissOne, categorySolution.solutions[0]);
+                missOneExampleUpdated = true;
             }
         }
     }

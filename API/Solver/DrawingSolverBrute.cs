@@ -1,0 +1,208 @@
+﻿using System.Text.RegularExpressions;
+
+namespace API;
+
+internal class DrawingSolverBrute : IDrawingSolver
+{
+    private readonly IWordleDictionary _wordleDictionary;
+    private readonly IBoardMapper _boardMapper;
+
+    public WordleWord AnswerWord => _wordleDictionary.AnswerWord;
+    public HashSet<WordleWord> GuessableWords => _wordleDictionary.AllowedWords;
+    private Dictionary<WordClue, HashSet<WordleWord>> CachedSolutions = [];
+
+    public DrawingSolverBrute(IWordleDictionary wordleDictionary, IBoardMapper boardMapper)
+    {
+        _wordleDictionary = wordleDictionary;
+        _wordleDictionary.AnswerWordChanged += AnswerChangedHandler;
+
+        _boardMapper = boardMapper;
+    }
+
+    public DrawingSolutionDTO Solve(BoardClue userDrawing)
+    {
+        List<CategorySolutionResult> categorySolutions = [];
+        DrawingValidation validate = ValidateDrawing(userDrawing);
+        if (validate != DrawingValidation.Valid)
+        {
+            return new(validate, categorySolutions);
+        }
+
+        List<Solution> _solutionList = [];
+        CategorySolutionResult _categorySolution;
+
+        // Record exact solution.
+        Solution exactSolution = ExactSolve(userDrawing);
+        _solutionList.Add(exactSolution);
+        _categorySolution = new(SolutionType.Exact, _solutionList.ToList());
+        categorySolutions.Add(_categorySolution);
+        _solutionList.Clear();
+
+        // Record shape solution.
+        List<BoardClue> shapeBoards = _boardMapper.MapToShape(userDrawing);
+        foreach (BoardClue board in shapeBoards)
+        {
+            DrawingValidation validateBoard = ValidateDrawing(board);
+            if (validateBoard != DrawingValidation.Valid) { continue; }
+            Solution boardSolution = ExactSolve(board);
+            _solutionList.Add(boardSolution);
+        }
+   
+        _categorySolution = new(SolutionType.Shape, _solutionList.ToList());
+        categorySolutions.Add(_categorySolution);
+        _solutionList.Clear();
+
+        // record MissOne solution.
+        List<BoardClue> missOneBoards = _boardMapper.MapToMissOne(userDrawing);
+        foreach (BoardClue board in missOneBoards)
+        {
+            Solution boardSolution = ExactSolve(board);
+            _solutionList.Add(boardSolution);
+        }
+
+        _categorySolution = new(SolutionType.MissOne, _solutionList.ToList());
+        categorySolutions.Add(_categorySolution);
+        _solutionList.Clear();
+
+        return new(validate, categorySolutions);
+    }
+
+    private Solution ExactSolve(BoardClue userDrawing)
+    {
+        SolutionWords solutionWords = new();
+
+        // Loop over rows (word drawings).
+        for (int rowIndex = 0; rowIndex < 6; rowIndex++)
+        {
+            WordClue rowDrawing = userDrawing[rowIndex];
+            // Check cache for the rowDrawing and just use that as the solution words if present.
+            HashSet<WordleWord>? cachedWords;
+            if (CachedSolutions.TryGetValue(rowDrawing, out cachedWords))
+            {
+                solutionWords[rowIndex] = cachedWords;
+                continue;
+            }
+
+
+            // Check every guessable word, and if matches the output drawing, add to solution list, (and cache it)
+            foreach(WordleWord guess in GuessableWords)
+            {
+                string test = guess.ToString().ToUpper();
+                WordClue testDraw = Draw(guess);
+                bool testComp = Draw(guess) == rowDrawing;
+                if (Draw(guess) == rowDrawing)
+                {
+                    solutionWords[rowIndex].Add(guess);
+                }
+            }
+            CachedSolutions.Add(rowDrawing, solutionWords[rowIndex]);
+        }
+
+        return new Solution(userDrawing, solutionWords);
+    }
+
+    public DrawingValidation ValidateDrawing(BoardClue userDrawing)
+    {
+        WordClue answer = new();
+        WordClue blank = new();
+        for (int i = 0; i < 5; i++)
+        {
+            answer[i] = BoxColor.Green;
+        }
+
+        // If answer row is given, then the rest of drawing must be blank.
+        // Impossible to have a row with 4 green and 1 yellow.
+        for (int rowIndex = 0; rowIndex < 6; rowIndex++)
+        {
+            WordClue row = userDrawing[rowIndex];
+            if (row.CountGreen() == 4 && row.CountYellow() == 1)
+            {
+                return DrawingValidation.ImpossibleRow;
+            }
+
+            if (row == answer)
+            {
+                for (int laterRowIndex = rowIndex + 1; laterRowIndex < 6; laterRowIndex++)
+                {
+                    WordClue futureRow = userDrawing[laterRowIndex];
+                    if (futureRow != blank)
+                    {
+                        return DrawingValidation.EarlyAnswer;
+                    }
+                }
+            }
+        }
+
+        return DrawingValidation.Valid;
+    }
+
+    // TODO_HIGH: Cache drawings
+    private WordClue Draw(WordleWord guess)
+    {
+        Dictionary<WordleLetter, int> answerLetterCountDict = [];
+        for (int letterIndex = 0; letterIndex < 5; letterIndex++)
+        {
+            WordleLetter answerLetter = AnswerWord[letterIndex];
+            // Count answer letters.
+            if (answerLetterCountDict.ContainsKey(answerLetter))
+            {
+                answerLetterCountDict[answerLetter]++;
+            }
+            else
+            {
+                answerLetterCountDict.Add(answerLetter, 1);
+            }
+        }
+
+        WordClue drawnRow = new();
+        Dictionary<WordleLetter, int> letterHitsDict = [];
+        for (int letterIndex = 0; letterIndex < 5; letterIndex++)
+        {
+            WordleLetter guessLetter = guess[letterIndex];
+            WordleLetter answerLetter = AnswerWord[letterIndex];
+
+            bool guessPresentInAnswer = answerLetterCountDict.TryGetValue(guessLetter, out int answerLetterCount);
+            bool guessPresentInHits = letterHitsDict.TryGetValue(guessLetter, out int letterHits);
+
+            // Green Cells
+            if (guessLetter == answerLetter)
+            {
+                drawnRow[letterIndex] = BoxColor.Green;
+                if (guessPresentInHits)
+                {
+                    letterHitsDict[guessLetter]++;
+                }
+                else
+                {
+                    letterHitsDict.Add(guessLetter, 1);
+                }
+            }
+
+            // Yellow cells
+            else if (guessPresentInAnswer)
+            {
+                if (!guessPresentInHits || letterHits < answerLetterCount)
+                {
+                    drawnRow[letterIndex] = BoxColor.Yellow;
+                    if (!guessPresentInHits)
+                    {
+                        letterHitsDict.Add(guessLetter, 1);
+                    }
+                    else
+                    {
+                        letterHitsDict[guessLetter]++;
+                    }
+                }
+            }
+        }
+
+        // Otherwise the color defaults to black.
+        return drawnRow;
+    }
+
+    // Event Handlers
+    private void AnswerChangedHandler(object? sender, WordleWord answerWord)
+    {
+        CachedSolutions.Clear();
+    }
+}

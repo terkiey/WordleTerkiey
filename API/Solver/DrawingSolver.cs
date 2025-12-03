@@ -2,6 +2,9 @@
 
 namespace API;
 
+/// <summary>
+/// Attempts to use regex to find solutions, though its not complete, and would require breaking words into letters to account for edge-cases.
+/// </summary>
 internal class DrawingSolver : IDrawingSolver
 {
     private readonly IWordleDictionary _wordleDictionary;
@@ -196,7 +199,6 @@ internal class DrawingSolver : IDrawingSolver
     // TODO_HIGH: LETTERS CAN BE YELLOWED OUT TOO!!!! INCORPORATE INTO THIS FUNCTION!
     private HashSet<char> GreenedOut(WordClue wordDrawing)
     {
-        
         Dictionary<char, int> countCharsAll = [];
         Dictionary<char, int> countCharsGreen = [];
         string AnswerString = AnswerWord.ToString();
@@ -213,7 +215,7 @@ internal class DrawingSolver : IDrawingSolver
                 countCharsAll.Add(answerLetter, 1);
             }
 
-            // 2. Count how many times each letter is greened.
+            // 2 Count how many times each letter is greened.
             if (wordDrawing[letterIndex] == BoxColor.Green)
             {
                 if (countCharsGreen.TryGetValue(answerLetter, out _))

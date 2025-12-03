@@ -41,13 +41,25 @@ public class WordleLetter : IEquatable<WordleLetter>, IEquatable<char>, IEquatab
     {
         if (otherString is null) return false;
         if (otherString.Length != 1) return false;
-        if (otherString[0] == this.Value) return true;
+        if (otherString.ToUpper()[0] == this.Value) return true;
         return false;
     }
 
     public override bool Equals(object? obj)
     {
         return Equals(obj as WordleLetter);
+    }
+
+    public static bool operator ==(WordleLetter a, WordleLetter b)
+    {
+        if (ReferenceEquals(a, b)) return true;
+        if (a is null || b is null) return false;
+        return a.Value == b.Value;
+    }
+
+    public static bool operator !=(WordleLetter a, WordleLetter b)
+    {
+        return !(a == b);
     }
 
     public override int GetHashCode()

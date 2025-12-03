@@ -8,6 +8,7 @@ public static class API_DI
     {
         services.AddSingleton<IGuessableWordService, GuessableWordService>(_ => new GuessableWordService());
         services.AddSingleton<IAnswerWordService, AnswerWordService>(_ => new AnswerWordService());
+        services.AddSingleton<IBoardMapper, BoardMapper>(_ => new BoardMapper());
 
         services.AddSingleton<IWordleDictionary, WordleDictionary>(sp =>
         {
@@ -16,10 +17,11 @@ public static class API_DI
             return new WordleDictionary(guessableWordService, answerWordService);
         });
 
-        services.AddSingleton<IDrawingSolver, DrawingSolver>(sp =>
+        services.AddSingleton<IDrawingSolver, DrawingSolverBrute>(sp =>
         {   
             var wordleDictionary = sp.GetRequiredService<IWordleDictionary>();
-            return new DrawingSolver(wordleDictionary);
+            var boardMapper = sp.GetRequiredService<IBoardMapper>();
+            return new DrawingSolverBrute(wordleDictionary, boardMapper);
         });
 
         services.AddSingleton<IWordleEngine, WordleEngine>(sp =>
