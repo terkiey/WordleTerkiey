@@ -5,6 +5,8 @@ namespace API;
 /// <summary>
 /// Attempts to use regex to find solutions, though its not complete, and would require breaking words into letters to account for edge-cases.
 /// </summary>
+
+// TODO_LOW: Decide how to archive this old solver, brute forcing works even without full caching and is simpler
 internal class DrawingSolver : IDrawingSolver
 {
     private readonly IWordleDictionary _wordleDictionary;
@@ -89,33 +91,6 @@ internal class DrawingSolver : IDrawingSolver
         return DrawingValidation.Valid;
     }
 
-    // TODO_LOW: This will need to create a list of rows it wants to make, make them, and then construct solutions from the combinations of row solutions.
-    private List<Solution> MissOneSolve(BoardClue userDrawing)
-    {
-        throw new NotImplementedException();
-    }
-
-    // TODO_LOW: This will need to create a list of rows it wants to make, make them, and then construct solutions from the combinations of row solutions.
-    private List<Solution> ShapeSolve(BoardClue userDrawing)
-    {
-        throw new NotImplementedException();
-        // Create all possible boards that have the same colored shape, but with some greens replaced with yellow.
-        for (int wordIndex = 0; wordIndex < 6; wordIndex++)
-        {
-            WordClue wordDrawing = userDrawing[wordIndex];
-            for (int letterIndex = 0; letterIndex < 5; letterIndex++)
-            {
-                BoxColor letterDrawing = wordDrawing[letterIndex];
-                if (letterDrawing == BoxColor.Green)
-                {
-                    
-                }
-            }
-        }
-
-    }
-
-    // TODO_LOW: Make this re-use solutions if multiple rows have same value.
     private Solution ExactSolve(BoardClue userDrawing)
     {
         string[] regexConditions = new string[6];
@@ -196,7 +171,6 @@ internal class DrawingSolver : IDrawingSolver
         }
     }
 
-    // TODO_HIGH: LETTERS CAN BE YELLOWED OUT TOO!!!! INCORPORATE INTO THIS FUNCTION!
     private HashSet<char> GreenedOut(WordClue wordDrawing)
     {
         Dictionary<char, int> countCharsAll = [];

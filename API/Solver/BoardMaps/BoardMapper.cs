@@ -2,6 +2,7 @@
 
 namespace API;
 
+// TODO_HIGH: actually use the cache to store and retrieve mappings... its just initialised and unused atm.
 internal class BoardMapper : IBoardMapper
 {
     Dictionary<BoardClue, List<BoardClue>> _cachedShapeMaps = [];

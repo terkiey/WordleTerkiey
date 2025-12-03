@@ -57,8 +57,9 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" FontSize="12" Foreground="{StaticResource WordleWhiteBrush}"
-                                HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding}" FontSize="16" Foreground="{StaticResource WordleWhiteBrush}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

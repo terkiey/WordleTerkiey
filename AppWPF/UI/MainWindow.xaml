@@ -22,13 +22,25 @@
     <Grid x:Name="BaseGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition x:Name="Sidebar" Width="80"/>
-            <ColumnDefinition x:Name="DrawingArea" Width="6*"/>
-            <ColumnDefinition x:Name="SolutionsBrowser" Width="5*" />
+            <ColumnDefinition x:Name="SidebarCol" Width="80"/>
+            <ColumnDefinition x:Name="DrawingAreaCol" Width="6*"/>
+            <ColumnDefinition x:Name="SolutionsBrowserCol" Width="5*" />
         </Grid.ColumnDefinitions>
 
-        <local:SidebarControl Grid.Row="0" Grid.Column="1" DataContext="{Binding SidebarVM}" />
+        <local:SidebarControl x:Name="Sidebar" Grid.Row="0" Grid.Column="1" DataContext="{Binding SidebarVM}" />
         <local:DrawingPanelControl Grid.Row="0" Grid.Column="2" DataContext="{Binding DrawingPanelVM}"/>
         <local:SolutionsBrowserControl Grid.Row="0" Grid.Column="3" DataContext="{Binding SolutionsBrowserVM}"/>
     </Grid>
+
+
+    <Window.InputBindings>
+        <KeyBinding Key="D1"
+                    Command="{Binding DataContext.ClearCommand, ElementName=Sidebar}"/>
+        <KeyBinding Key="D2"
+                    Command="{Binding DataContext.ColorCycleCommand, ElementName=Sidebar}"/>
+        <KeyBinding Key="D3"
+                    Command="{Binding DataContext.SolveCommand, ElementName=Sidebar}"/>
+        <KeyBinding Key="D4"
+                    Command="{Binding DataContext.CustomWordCommand, ElementName=Sidebar}"/>
+    </Window.InputBindings>
 </Window>

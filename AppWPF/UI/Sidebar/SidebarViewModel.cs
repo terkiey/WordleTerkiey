@@ -31,6 +31,7 @@ public class SidebarViewModel : ISidebarViewModel
         ColorCycleCommand = new RelayCommand(
         _ => ColorCycleCommandHandler());
 
+        // TODO_HIGH: Make the solve command asynchronous so it doesnt lag the UI.
         SolveCommand = new RelayCommand(
         _ => SolveCommandHandler(),
         _ => SolveCommandAllowed());
@@ -109,7 +110,8 @@ public class SidebarViewModel : ISidebarViewModel
         if (result == true)
         {
             WordleWord word = new("ERROR");
-            string userValue = dialog.UserInput;
+            string? userValue = dialog.UserInput;
+            if (userValue is null) { return null; }
             try
             {
                 word = new(userValue);

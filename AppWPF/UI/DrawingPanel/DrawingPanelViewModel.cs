@@ -81,6 +81,8 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
     {
         Cells.Clear();
         InitialiseCells();
+
+        DrawingChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public BoxColor CycleColor()

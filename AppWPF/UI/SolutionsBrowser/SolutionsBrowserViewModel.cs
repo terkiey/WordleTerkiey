@@ -26,6 +26,7 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         missOneSolutionExample = new();
     }
 
+    // TODO_MID: This should clear the solutions prior to setting new ones, so that old solutions dont confusingly stay.
     private void SolutionsReadyHandler(object? sender, DrawingSolutionDTO DTO)
     {
         if (DTO.drawingValidation != DrawingValidation.Valid)
@@ -97,4 +98,13 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
                 break;
         }
     }
+    /* TODO_HIGH: Turn each solution-type panel into a user-control to reduce code verbosity and allow me to uniformly make design changes to them without having to make
+     * the changes one time for each panel.
+     */
+
+    /* TODO_MID: Allow the user to click the panel for a type of solution, which opens a window, or adjusts the solutionbrowser pannel, whatever, it will have these features:
+     * Show all the available patterns.
+     * 
+     * Then, clicking a pattern opens a further window (or navigates deeper into the panel), allowing the user to browse all of the possible words that give each row of the solution.
+     */
 }

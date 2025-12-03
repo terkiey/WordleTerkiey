@@ -7,13 +7,13 @@
              mc:Ignorable="d">
 
     <Border x:Name="Sidebar" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="0,0,2,0">
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            
+
             <StackPanel x:Name="Sidebar_Button_Panel" Grid.Row="0" Margin="5,5,5,5">
 
                 <Button x:Name="Clear_Button" Style="{StaticResource SideBarButtonStyle}" 
@@ -53,5 +53,4 @@
                     Command="{Binding CustomWordCommand}"/>
         </Grid>
     </Border>
-    
 </UserControl>

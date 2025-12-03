@@ -13,8 +13,13 @@
         <TextBox x:Name="UserInputTextBox" Margin="0,5,0,10"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="OK" Width="75" Margin="0,0,5,0" Click="Ok_Click" />
-            <Button Content="Cancel" Width="75" Click="Cancel_Click" />
+            <Button Content="OK" Width="75" Margin="0,0,5,0" Command="{Binding OkCommand}" IsDefault="True" />
+            <Button Content="Cancel" Width="75" Command="{Binding CancelCommand}" />
         </StackPanel>
     </StackPanel>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Esc"
+                    Command="{Binding CancelCommand}"/>
+    </Window.InputBindings>
 </Window>

@@ -10,9 +10,7 @@ public partial class SidebarControl : UserControl
     {
         InitializeComponent();
     }
-
-    private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-    {
-
-    }
 }
+
+// TODO_HIGH: Adjust the button hover effects so that it's less intrusive (maybe a border grow and glow, or something like that).
+// TODO_HIGH: Figure out how to make the picture buttons more visual with when they are and aren't allowed to be clicked, in fact, dont do my new hover effects in those cases too.
