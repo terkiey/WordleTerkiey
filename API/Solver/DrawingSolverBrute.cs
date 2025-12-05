@@ -156,15 +156,15 @@ internal class DrawingSolverBrute : IDrawingSolver
 
         WordClue drawnRow = new();
         Dictionary<WordleLetter, int> letterHitsDict = [];
+
+        // Green Cells Loop
         for (int letterIndex = 0; letterIndex < 5; letterIndex++)
         {
             WordleLetter guessLetter = guess[letterIndex];
             WordleLetter answerLetter = AnswerWord[letterIndex];
 
-            bool guessPresentInAnswer = answerLetterCountDict.TryGetValue(guessLetter, out int answerLetterCount);
             bool guessPresentInHits = letterHitsDict.TryGetValue(guessLetter, out int letterHits);
 
-            // Green Cells
             if (guessLetter == answerLetter)
             {
                 drawnRow[letterIndex] = BoxColor.Green;
@@ -177,9 +177,17 @@ internal class DrawingSolverBrute : IDrawingSolver
                     letterHitsDict.Add(guessLetter, 1);
                 }
             }
+        }
 
-            // Yellow cells
-            else if (guessPresentInAnswer)
+        // Yellow cells Loop
+        for (int letterIndex = 0; letterIndex < 5; letterIndex++)
+        {
+            WordleLetter guessLetter = guess[letterIndex];
+            WordleLetter answerLetter = AnswerWord[letterIndex];
+
+            bool guessPresentInHits = letterHitsDict.TryGetValue(guessLetter, out int letterHits);
+            bool guessPresentInAnswer = answerLetterCountDict.TryGetValue(guessLetter, out int answerLetterCount);
+            if (guessPresentInAnswer)
             {
                 if (!guessPresentInHits || letterHits < answerLetterCount)
                 {
