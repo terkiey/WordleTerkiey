@@ -110,8 +110,10 @@ internal class DrawingSolverBrute : IDrawingSolver
             answer[i] = BoxColor.Green;
         }
 
-        // If answer row is given, then the rest of drawing must be blank.
-        // Impossible to have a row with 4 green and 1 yellow.
+        /* Rules:
+         * If answer row is given, then the rest of drawing must be blank.
+         * Impossible to have a row with 4 green and 1 yellow.
+         */
         for (int rowIndex = 0; rowIndex < 6; rowIndex++)
         {
             WordClue row = userDrawing[rowIndex];
