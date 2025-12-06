@@ -48,7 +48,7 @@
                            TextWrapping="Wrap"
                            />
 
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding exactSolutionExample.Words}">
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding ExactSolutionExample.Words}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="6"/>
@@ -65,7 +65,7 @@
                 </ItemsControl>
                 
                 
-                <ItemsControl Grid.Column="2" ItemsSource="{Binding exactSolutionExample.Colors}">
+                <ItemsControl Grid.Column="2" ItemsSource="{Binding ExactSolutionExample.Colors}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="6" Columns="5"/>
@@ -105,7 +105,7 @@
                    TextWrapping="Wrap"
                    />
 
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding shapeSolutionExample.Words}">
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding ShapeSolutionExample.Words}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="6"/>
@@ -121,7 +121,7 @@
                 </ItemsControl>
 
 
-                <ItemsControl Grid.Column="2" ItemsSource="{Binding shapeSolutionExample.Colors}">
+                <ItemsControl Grid.Column="2" ItemsSource="{Binding ShapeSolutionExample.Colors}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="6" Columns="5"/>
@@ -161,7 +161,7 @@
                    TextWrapping="Wrap"
                    />
 
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding missOneSolutionExample.Words}">
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding MissOneSolutionExample.Words}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="6"/>
@@ -177,7 +177,7 @@
                 </ItemsControl>
 
 
-                <ItemsControl Grid.Column="2" ItemsSource="{Binding missOneSolutionExample.Colors}">
+                <ItemsControl Grid.Column="2" ItemsSource="{Binding MissOneSolutionExample.Colors}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="6" Columns="5"/>

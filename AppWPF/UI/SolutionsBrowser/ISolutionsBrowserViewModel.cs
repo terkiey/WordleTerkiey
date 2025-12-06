@@ -4,9 +4,7 @@ namespace AppWPF;
 
 public interface ISolutionsBrowserViewModel : INotifyPropertyChanged
 {
-    SolutionExampleVM exactSolutionExample { get; }
-    SolutionExampleVM shapeSolutionExample { get; }
-    SolutionExampleVM missOneSolutionExample { get; }
-
-
+    SolutionExampleVM ExactSolutionExample { get; }
+    SolutionExampleVM ShapeSolutionExample { get; }
+    SolutionExampleVM MissOneSolutionExample { get; }
 }
