@@ -7,9 +7,13 @@ internal class DrawingSolverBrute : IDrawingSolver
     private readonly IWordleDictionary _wordleDictionary;
     private readonly IBoardMapper _boardMapper;
 
+    private Dictionary<WordClue, HashSet<WordleWord>> _cachedSolutions = [];
+    private Dictionary<WordleWord, WordClue> _cachedDrawings = [];
+
     public WordleWord AnswerWord => _wordleDictionary.AnswerWord;
     public HashSet<WordleWord> GuessableWords => _wordleDictionary.AllowedWords;
-    private Dictionary<WordClue, HashSet<WordleWord>> CachedSolutions = [];
+    
+    
 
     public DrawingSolverBrute(IWordleDictionary wordleDictionary, IBoardMapper boardMapper)
     {
@@ -77,7 +81,7 @@ internal class DrawingSolverBrute : IDrawingSolver
             WordClue rowDrawing = userDrawing[rowIndex];
             // Check cache for the rowDrawing and just use that as the solution words if present.
             HashSet<WordleWord>? cachedWords;
-            if (CachedSolutions.TryGetValue(rowDrawing, out cachedWords))
+            if (_cachedSolutions.TryGetValue(rowDrawing, out cachedWords))
             {
                 solutionWords[rowIndex] = cachedWords;
                 continue;
@@ -95,7 +99,7 @@ internal class DrawingSolverBrute : IDrawingSolver
                     solutionWords[rowIndex].Add(guess);
                 }
             }
-            CachedSolutions.Add(rowDrawing, solutionWords[rowIndex]);
+            _cachedSolutions.Add(rowDrawing, solutionWords[rowIndex]);
         }
 
         return new Solution(userDrawing, solutionWords);
@@ -138,9 +142,13 @@ internal class DrawingSolverBrute : IDrawingSolver
         return DrawingValidation.Valid;
     }
 
-    // TODO_HIGH: Cache drawings
     private WordClue Draw(WordleWord guess)
     {
+        if (_cachedDrawings.TryGetValue(guess, out WordClue? cachedDrawing))
+        {
+            return cachedDrawing;
+        }
+
         Dictionary<WordleLetter, int> answerLetterCountDict = [];
         for (int letterIndex = 0; letterIndex < 5; letterIndex++)
         {
@@ -207,12 +215,14 @@ internal class DrawingSolverBrute : IDrawingSolver
         }
 
         // Otherwise the color defaults to black.
+
+        _cachedDrawings.Add(guess, drawnRow);
         return drawnRow;
     }
 
     // Event Handlers
     private void AnswerChangedHandler(object? sender, WordleWord answerWord)
     {
-        CachedSolutions.Clear();
+        _cachedSolutions.Clear();
     }
 }
