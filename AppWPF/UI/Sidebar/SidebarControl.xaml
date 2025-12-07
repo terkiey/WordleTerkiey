@@ -22,24 +22,8 @@
                     <Image Source="/Assets/Buttons/Clear.png" Stretch="Uniform"/>
                 </Button>
                 <Button x:Name="Color_Cycle_Button"
-                         ToolTip="Cycle Color    Shortcut: 2"
-                         Height="50"
-                         Width="50"
-                         Margin="0,0,0,10"
-                         Cursor="Hand"
+                         Style="{StaticResource ColorPickerButtonStyle}" 
                          Command="{Binding ColorCycleCommand}">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ColorPicker}" Value="Yellow">
-                                    <Setter Property="Background" Value="{StaticResource WordleYellowBrush}" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ColorPicker}" Value="Green">
-                                    <Setter Property="Background" Value="{StaticResource WordleGreenBrush}" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
                 </Button>
                 <Button x:Name="Solve_Button" Style="{StaticResource SideBarButtonStyle}" 
                          ToolTip="Solve    Shortcut: 3"

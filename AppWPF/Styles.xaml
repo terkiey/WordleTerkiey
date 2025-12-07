@@ -13,28 +13,103 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid>
+                    <Grid Background="Transparent">
+                        <Border x:Name="BaseBackground"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"/>
+
                         <Image x:Name="Placeholder" Source="/Assets/Placeholder.png" Stretch="Uniform" Visibility="Collapsed"/>
                         <ContentPresenter x:Name="contentPresenter"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
+                        <Border x:Name="Overlay"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="2"
+                            CornerRadius="6"
+                            Opacity="0" />
                     </Grid>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="Content" Value="{x:Null}">
                             <Setter TargetName="Placeholder" Property="Visibility" Value="Visible"/>
                         </Trigger>
+
+                        <!-- HOVER EFFECT -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Overlay" Property="Opacity" Value="0.9"/>
+                            <Setter TargetName="Overlay" Property="Background" Value="#FFBEE6FD"/>
+                            <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF3C7FB1"/>
+                        </Trigger>
+
+                        <!-- PRESSED EFFECT -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Overlay" Property="Opacity" Value="0.9"/>
+                            <Setter TargetName="Overlay" Property="Background" Value="#FFC4E5F6"/>
+                            <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF2C628B"/>
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
         <Setter Property="ToolTip" Value="Placeholder tooltip" />
+    </Style>
+
+    <Style x:Key="ColorPickerButtonStyle" TargetType="Button">
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Width" Value="50"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="Cursor" Value="Hand"/>
+
+        <Setter Property="ToolTip" Value="Cycle Color    Shortcut: 2"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="Transparent">
+                        <Border x:Name="BaseBackground"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="6"/>
+
+                        <Border x:Name="Overlay"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="2"
+                        CornerRadius="6"
+                        Opacity="0" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- HOVER EFFECT -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Overlay" Property="Opacity" Value="0.3"/>
+                            <Setter TargetName="Overlay" Property="Background" Value="#FFBEE6FD"/>
+                            <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF3C7FB1"/>
+                        </Trigger>
+
+                        <!-- PRESSED EFFECT -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Overlay" Property="Opacity" Value="0.3"/>
+                            <Setter TargetName="Overlay" Property="Background" Value="#FFC4E5F6"/>
+                            <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF2C628B"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
 
         <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Cursor" Value="Arrow"/>
-            </Trigger>
+            <DataTrigger Binding="{Binding ColorPicker}" Value="Yellow">
+                <Setter Property="Background" Value="{StaticResource WordleYellowBrush}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ColorPicker}" Value="Green">
+                <Setter Property="Background" Value="{StaticResource WordleGreenBrush}" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>
