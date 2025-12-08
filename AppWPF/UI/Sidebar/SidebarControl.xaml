@@ -17,7 +17,7 @@
             <StackPanel x:Name="Sidebar_Button_Panel" Grid.Row="0" Margin="5,5,5,5">
 
                 <Button x:Name="Clear_Button" Style="{StaticResource SideBarButtonStyle}" 
-                         ToolTip="Clear Grid   Shortcut: 1"
+                         ToolTip="Clear Grid (1)"
                          Command="{Binding ClearCommand}">
                     <Image Source="/Assets/Buttons/Clear.png" Stretch="Uniform"/>
                 </Button>
@@ -26,14 +26,14 @@
                          Command="{Binding ColorCycleCommand}">
                 </Button>
                 <Button x:Name="Solve_Button" Style="{StaticResource SideBarButtonStyle}" 
-                         ToolTip="Solve    Shortcut: 3"
+                         ToolTip="Solve (3)"
                          Command="{Binding SolveCommand}">
                     <Image Source="/Assets/Buttons/Solve.png" Stretch="Uniform"/>
                 </Button>
             </StackPanel>
 
             <Button Grid.Row="1" Style="{StaticResource SideBarButtonStyle}"
-                    ToolTip="Define Answer Word" 
+                    ToolTip="Define Answer Word (4)" 
                     Command="{Binding CustomWordCommand}"/>
         </Grid>
     </Border>
