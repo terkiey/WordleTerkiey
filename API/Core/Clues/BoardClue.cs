@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace API;
 
@@ -52,6 +53,14 @@ public class BoardClue : IEquatable<BoardClue>
     {
         get => WordClueArray[index];
         set => WordClueArray[index] = value;
+    }
+
+    public IEnumerator<WordClue> GetEnumerator()
+    {
+        for (int rowIndex = 0; rowIndex < WordClueArray.Length; rowIndex++)
+        {
+            yield return WordClueArray[rowIndex];
+        }
     }
 
     public static bool operator ==(BoardClue a, BoardClue b)

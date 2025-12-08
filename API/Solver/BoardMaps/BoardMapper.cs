@@ -1,9 +1,12 @@
-﻿namespace API;
+﻿using System.Runtime.CompilerServices;
+
+namespace API;
 
 internal class BoardMapper : IBoardMapper
 {
     Dictionary<BoardClue, List<BoardClue>> _cachedShapeMaps = [];
     Dictionary<BoardClue, List<BoardClue>> _cachedMissOneMaps = [];
+    Dictionary<BoardClue, List<BoardClue>> _cachedMirrorMaps = [];
 
     public List<BoardClue> MapToShape(BoardClue boardClue)
     {
@@ -101,5 +104,47 @@ internal class BoardMapper : IBoardMapper
 
         outputBoards.Select(bc => bc != boardClue);
         return outputBoards;
+    }
+
+    public List<BoardClue> MapToMirrors(BoardClue boardClue)
+    {
+        if (_cachedMirrorMaps.TryGetValue(boardClue, out List<BoardClue>? cachedMap))
+        {
+            return cachedMap;
+        }
+
+        List<BoardClue> outputBoards = [];
+        outputBoards.Add(HorizontalMirror(VerticalMirror(boardClue)));
+        outputBoards.Add(HorizontalMirror(boardClue));
+        outputBoards.Add(VerticalMirror(boardClue));
+
+        return outputBoards;
+    }
+
+    private BoardClue VerticalMirror(BoardClue boardClue)
+    {
+        WordClue[] newRows = new WordClue[6];
+        for (int rowIndex = 0; rowIndex < 6;  rowIndex++)
+        {
+            newRows[0] = MirrorRow(boardClue[rowIndex]);
+        }
+
+        return new(newRows);
+    }
+
+    private BoardClue HorizontalMirror(BoardClue boardClue)
+    {
+
+    }
+
+    private WordClue MirrorRow(WordClue row)
+    {
+        WordClue outputRow = new();
+        for (int letterIndex = 0; letterIndex < 5; letterIndex++)
+        {
+            outputRow[row.LetterClues.Length - letterIndex] = row[letterIndex];
+        }
+
+        return outputRow;
     }
 }

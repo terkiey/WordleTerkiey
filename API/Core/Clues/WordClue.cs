@@ -50,6 +50,14 @@ public class WordClue : IEquatable<WordClue>
         return hash.ToHashCode();
     }
 
+    public IEnumerator<BoxColor> GetEnumerator()
+    {
+        for (int letterIndex = 0; letterIndex < LetterClues.Length; letterIndex++)
+        {
+            yield return LetterClues[letterIndex];
+        }
+    }
+
     public BoxColor this[int index]
     {
         get => LetterClues[index];
