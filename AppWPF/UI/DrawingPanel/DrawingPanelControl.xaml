@@ -19,7 +19,7 @@
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <Border Grid.Row="0" Grid.ColumnSpan="3" x:Name="TitleBarBorder" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="0,0,0,2">
             <TextBlock Text="{Binding AnswerHeader}" 
             Foreground="{StaticResource WordleWhiteBrush}"
@@ -31,10 +31,16 @@
 
         <Border Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="{StaticResource WordleBlackBrush}"/>
 
-        <ItemsControl Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Cells}">
+        <ItemsControl Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Cells}" x:Name="GridItemsControl"
+                      PreviewMouseLeftButtonDown="ItemsControl_PreviewMouseLeftButtonDown"
+                      PreviewMouseRightButtonDown="ItemsControl_PreviewMouseRightButtonDown"
+                      PreviewMouseMove="ItemsControl_PreviewMouseMove"
+                      PreviewMouseLeftButtonUp="ItemsControl_PreviewLeftMouseButtonUp"
+                      PreviewMouseRightButtonUp="ItemsControl_PreviewRightMouseButtonUp"
+                      Cursor="Hand">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="6" Columns="5"/>
+                    <UniformGrid x:Name="Cell_Grid" Rows="6" Columns="5" Background="Transparent"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -45,25 +51,41 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
 
-            <!-- TODO_LOW: I could have just put the commands on the actual cell class... -->
             <ItemsControl.ItemTemplate>
+                <!--
                 <DataTemplate>
                     <Button Margin="3"
                     BorderThickness="2"
                     Background="{Binding Color, Converter={StaticResource BoxColorConverter}}"
+                    Cursor="Hand">
                     Command="{Binding DataContext.ColorBoxInCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                     CommandParameter="{Binding}"
-                    Cursor="Hand">
+                    
                         <Button.InputBindings>
                             <MouseBinding Gesture="RightClick"
                                 Command="{Binding DataContext.ClearBoxCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 CommandParameter="{Binding}"/>
                         </Button.InputBindings>
-                    </Button>
+                </Button>
+                </DataTemplate>
+                -->
+
+                <DataTemplate>
+                    <Border Margin="3" Background="{Binding Color, Converter={StaticResource BoxColorConverter}}" 
+                            BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="2" Cursor="Hand" IsHitTestVisible="True">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="BorderBrush" Value="Yellow"/>
+                                        <Setter Property="BorderThickness" Value="3"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
-        
     </Grid>
 </UserControl>

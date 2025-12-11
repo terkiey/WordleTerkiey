@@ -1,5 +1,10 @@
-﻿using System.Windows.Controls;
-
+﻿using System.Diagnostics;
+using System.Formats.Asn1;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace AppWPF;
 /// <summary>
@@ -7,18 +12,105 @@ namespace AppWPF;
 /// </summary>
 public partial class DrawingPanelControl : UserControl
 {
+    private bool _isLeftDrag;
+    private bool _isRightDrag;
+
+    private object? _lastCell;
+
     public DrawingPanelControl()
     {
         InitializeComponent();
     }
-}
+
+    private void ItemsControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        _isLeftDrag = true;
+        _lastCell = null; // reset last painted cell
+
+        var itemsControl = sender as UIElement;
+        itemsControl?.CaptureMouse();
+
+        _ = ActivateItemUnderMouseAsync();
+    }
+
+    private void ItemsControl_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        _isRightDrag = true;
+        _lastCell = null;
+
+        // Capture the mouse to the ItemsControl
+        var itemsControl = sender as UIElement;
+        itemsControl?.CaptureMouse();
+
+        _ = ActivateItemUnderMouseAsync();
+    }
+
+    private void ItemsControl_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+        if (_isLeftDrag || _isRightDrag)
+        {
+            _ = ActivateItemUnderMouseAsync();
+        }
+    }
+
+    private void ItemsControl_PreviewLeftMouseButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        _isLeftDrag = false;
+        _lastCell = null;
+
+        var itemsControl = sender as UIElement;
+        itemsControl?.ReleaseMouseCapture();
+    }
+
+    private void ItemsControl_PreviewRightMouseButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        _isRightDrag = false;
+        _lastCell = null;
+
+        var itemsControl = sender as UIElement;
+        itemsControl?.ReleaseMouseCapture();
+    }
+
+    private async Task ActivateItemUnderMouseAsync()
+    {
+        var itemsControl = this.GridItemsControl;
+
+        // Get mouse position relative to the ItemsControl
+        var pos = Mouse.GetPosition(itemsControl);
+
+        // Perform hit test
+        var hit = VisualTreeHelper.HitTest(itemsControl, pos);
+        if (hit == null) return;
+
+        // Walk up visual tree until we find a Border with a DataContext
+        var dep = hit.VisualHit;
+        while (dep != null && !(dep is Border border && border.DataContext != null))
+        {
+            dep = VisualTreeHelper.GetParent(dep);
+        }
+
+        if (dep is Border foundBorder && foundBorder.DataContext != null)
+        {
+            var cellVm = foundBorder.DataContext;
+
+            if (ReferenceEquals(_lastCell, cellVm))
+                return;
+
+            _lastCell = cellVm;
+
+            var rootVm = (DrawingPanelViewModel)DataContext;
+
+            if (_isLeftDrag)
+                await rootVm.ColorBoxInCommand.ExecuteAsync((DrawingGridCell)cellVm);
+            else if (_isRightDrag)
+                await rootVm.ClearBoxCommand.ExecuteAsync((DrawingGridCell)cellVm);
+        }
+    }
+}   
 
 /* TODO_HIGH: Indicate live when the drawing is invalid, and highlight the culprits.
  * I imagine this will require rejigging the drawing validation object to contain information on the culprit(s) locations.
  * Will need to use my skills gained from doing the hover things to decide how to adjust the view to show this, thinking some text,and then red borders to indicate problem cells.
- */
-
-/* TODO_HIGH: Allow click and drag to paint in the drawing panel, of course I would want that!
  */
 
  /* TODO_MID: Allow hold shift and draw in order to draw in the 'other' color from what is selected in the colorpicker button.

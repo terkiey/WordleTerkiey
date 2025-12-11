@@ -1,4 +1,5 @@
 ﻿using API;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -12,8 +13,13 @@ public interface IDrawingPanelViewModel : INotifyPropertyChanged
 
     event EventHandler<EventArgs>? DrawingChanged;
 
+    AsyncRelayCommand<DrawingGridCell> ColorBoxInCommand { get; }
+    AsyncRelayCommand<DrawingGridCell> ClearBoxCommand { get; }
+
+    /*
     ICommand ColorBoxInCommand { get; }
     ICommand ClearBoxCommand { get; }
+    */
 
     BoardClue GetBoard();
     bool IsBoardEmpty();

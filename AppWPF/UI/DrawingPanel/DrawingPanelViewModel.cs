@@ -3,6 +3,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 
+using CommunityToolkit.Mvvm;
+using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
+
 namespace AppWPF;
 
 public class DrawingPanelViewModel : IDrawingPanelViewModel
@@ -16,8 +20,13 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<EventArgs>? DrawingChanged;
 
+    /*
     public ICommand ColorBoxInCommand { get; }
     public ICommand ClearBoxCommand { get; }
+    */
+
+    public AsyncRelayCommand<DrawingGridCell> ColorBoxInCommand { get; }
+    public AsyncRelayCommand<DrawingGridCell> ClearBoxCommand { get; }
 
     public DrawingPanelViewModel(IWordleEngine engine)
     {
@@ -27,11 +36,37 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
         
         InitialiseCells();
 
+
+        ColorBoxInCommand = new AsyncRelayCommand<DrawingGridCell>(ColorBoxInCommandHandlerAsync);
+        ClearBoxCommand = new AsyncRelayCommand<DrawingGridCell>(ClearBoxCommandHandlerAsync);
+
+        /*
         ColorBoxInCommand = new RelayCommand(
         parameters => ColorBoxInCommandHandler((DrawingGridCell)parameters!));
 
         ClearBoxCommand = new RelayCommand(
         parameters => ClearBoxCommandHandler((DrawingGridCell)parameters!));
+        */
+    }
+
+    public async Task ColorBoxInCommandHandlerAsync(DrawingGridCell? cell)
+    {
+        await Task.Yield();
+
+        if (cell == null) { return; }
+        cell.Color = DrawingColor;
+        DrawingChanged?.Invoke(this, EventArgs.Empty);
+        PropertyChanged?.Invoke(this, new(nameof(Cells)));
+    }
+
+    public async Task ClearBoxCommandHandlerAsync(DrawingGridCell? cell)
+    {
+        await Task.Yield();    
+    
+        if (cell == null) { return; }
+        cell.Color = BoxColor.Black;
+        DrawingChanged?.Invoke(this, EventArgs.Empty);
+        PropertyChanged?.Invoke(this, new(nameof(Cells)));
     }
 
     public void ColorBoxInCommandHandler(DrawingGridCell cell)

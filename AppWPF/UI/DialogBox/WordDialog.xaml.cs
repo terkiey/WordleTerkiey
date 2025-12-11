@@ -1,4 +1,6 @@
-﻿using System.Buffers;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.Buffers;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,27 +10,42 @@ namespace AppWPF;
 /// <summary>
 /// Interaction logic for WordDialog.xaml
 /// </summary>
-public partial class WordDialog : Window
+public partial class WordDialog : Window, INotifyPropertyChanged
 {
-    public string? UserInput { get; set; }
+    string? _userInput;
 
-    public ICommand OkCommand { get; }
-    public ICommand CancelCommand { get; }
+    public string? UserInput
+    {
+        get => _userInput;
+        set
+        {
+            _userInput = value;
+            PropertyChanged?.Invoke(this, new(nameof(UserInput)));
+            OkCommand?.NotifyCanExecuteChanged();
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public CommunityToolkit.Mvvm.Input.RelayCommand OkCommand { get; }
+    public CommunityToolkit.Mvvm.Input.RelayCommand CancelCommand { get; }
 
     public WordDialog()
     {
+        OkCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(
+                    OkCommandHandler,
+                    OkAllowed);
+
+        CancelCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(
+                        CancelCommandHandler);
+
+        UserInput = "wordy";
+
         InitializeComponent();
 
-        UserInput = "";
-
-        OkCommand = new RelayCommand(
-        _ => OkCommandHandler(),
-        _ => OkAllowed());
-
-        CancelCommand = new RelayCommand(
-        _ => CancelCommandHandler());
-
         DataContext = this;
+
+  
     }
 
     private void OkCommandHandler()
@@ -39,18 +56,12 @@ public partial class WordDialog : Window
 
     private bool OkAllowed()
     {
-        string currentInput = UserInputTextBox.Text;
-        if (currentInput.Trim().Length != 5)
-        {
-            return false;
-        }
-
-        return true;
+        return !string.IsNullOrWhiteSpace(UserInput) && UserInput.Length == 5;
     }
 
     private void CancelCommandHandler()
     {
-        UserInput = null;    
+        UserInput = null;
         DialogResult = true;
     }
 
