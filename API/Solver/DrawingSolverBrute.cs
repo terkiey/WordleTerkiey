@@ -13,8 +13,6 @@ internal class DrawingSolverBrute : IDrawingSolver
     public WordleWord AnswerWord => _wordleDictionary.AnswerWord;
     public HashSet<WordleWord> GuessableWords => _wordleDictionary.AllowedWords;
     
-    
-
     public DrawingSolverBrute(IWordleDictionary wordleDictionary, IBoardMapper boardMapper)
     {
         _wordleDictionary = wordleDictionary;

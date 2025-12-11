@@ -134,7 +134,8 @@ internal class BoardMapper : IBoardMapper
 
     private BoardClue HorizontalMirror(BoardClue boardClue)
     {
-
+        // TODO_HIGH: implement
+        return boardClue;
     }
 
     private WordClue MirrorRow(WordClue row)

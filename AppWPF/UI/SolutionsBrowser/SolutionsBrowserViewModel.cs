@@ -56,7 +56,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         MissOneSolutionExample = new();
     }
 
-    // TODO_MID: This should clear the solutions prior to setting new ones, so that old solutions dont confusingly stay.
     private void SolutionsReadyHandler(object? sender, DrawingSolutionDTO DTO)
     {
         if (DTO.drawingValidation != DrawingValidation.Valid)
@@ -66,48 +65,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
 
         ClearExamples();
         UpdateExamples(DTO);
-
-        bool exactExampleUpdated = false;
-        bool shapeExampleUpdated = false;
-        bool missOneExampleUpdated = false;
-        foreach (CategorySolutionResult categorySolution in DTO.categorySolutions)
-        {
-            if (categorySolution.solutions.Count == 0)
-            {
-                continue;
-            }
-
-            bool failed = false;
-            for (int wordIndex = 0; wordIndex < 5; wordIndex++)
-            {
-                if (categorySolution.solutions[0].words[wordIndex].Count == 0)
-                {
-                    failed = true;
-                }
-            }
-            if (failed)
-            {
-                continue;
-            }
-
-            if (categorySolution.category == SolutionType.Exact && exactExampleUpdated == false)
-            {
-                UpdateExample(SolutionType.Exact, categorySolution.solutions[0]);
-                exactExampleUpdated = true;
-            }
-
-            if (categorySolution.category == SolutionType.Shape && shapeExampleUpdated == false)
-            {
-                UpdateExample(SolutionType.Shape, categorySolution.solutions[0]);
-                shapeExampleUpdated = true;
-            }
-
-            if (categorySolution.category == SolutionType.MissOne && missOneExampleUpdated == false)
-            {
-                UpdateExample(SolutionType.MissOne, categorySolution.solutions[0]);
-                missOneExampleUpdated = true;
-            }
-        }
     }
 
     private void UpdateExamples(DrawingSolutionDTO DTO)
@@ -123,11 +80,12 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
             }
 
             bool failed = false;
-            for (int wordIndex = 0; wordIndex < 5; wordIndex++)
+            for (int wordIndex = 0; wordIndex < 6; wordIndex++)
             {
                 if (categorySolution.solutions[0].words[wordIndex].Count == 0)
                 {
                     failed = true;
+                    break;
                 }
             }
             if (failed)
