@@ -195,7 +195,7 @@ internal class DrawingSolverBrute : IDrawingSolver
 
             bool guessPresentInHits = letterHitsDict.TryGetValue(guessLetter, out int letterHits);
             bool guessPresentInAnswer = answerLetterCountDict.TryGetValue(guessLetter, out int answerLetterCount);
-            if (guessPresentInAnswer)
+            if (guessPresentInAnswer && drawnRow[letterIndex] != BoxColor.Green)
             {
                 if (!guessPresentInHits || letterHits < answerLetterCount)
                 {
