@@ -126,7 +126,7 @@ internal class BoardMapper : IBoardMapper
         WordClue[] newRows = new WordClue[6];
         for (int rowIndex = 0; rowIndex < 6;  rowIndex++)
         {
-            newRows[0] = MirrorRow(boardClue[rowIndex]);
+            newRows[rowIndex] = MirrorRow(boardClue[rowIndex]);
         }
 
         return new(newRows);
@@ -134,8 +134,13 @@ internal class BoardMapper : IBoardMapper
 
     private BoardClue HorizontalMirror(BoardClue boardClue)
     {
-        // TODO_HIGH: implement
-        return boardClue;
+        WordClue[] newRows = new WordClue[6];
+        for (int rowIndex = 0; rowIndex < 6 ; rowIndex++)
+        {
+            newRows[rowIndex] = boardClue[5 - rowIndex];
+        }
+
+        return new BoardClue(newRows);
     }
 
     private WordClue MirrorRow(WordClue row)
@@ -143,7 +148,7 @@ internal class BoardMapper : IBoardMapper
         WordClue outputRow = new();
         for (int letterIndex = 0; letterIndex < 5; letterIndex++)
         {
-            outputRow[row.LetterClues.Length - letterIndex] = row[letterIndex];
+            outputRow[(row.LetterClues.Length - letterIndex) - 1] = row[letterIndex];
         }
 
         return outputRow;

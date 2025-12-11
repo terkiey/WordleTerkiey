@@ -151,6 +151,62 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
+           Text="Mirror &amp; Palette Swap Matches"
+           Foreground="{StaticResource WordleWhiteBrush}"
+           FontSize="24"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           FontWeight="DemiBold"
+           Margin="5,5,5,5"
+           TextWrapping="Wrap"
+           />
+
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding MirrorPaletteSolutionExample.Words}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="6"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontSize="12" Foreground="{StaticResource WordleWhiteBrush}"
+                HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+
+                <ItemsControl Grid.Column="2" ItemsSource="{Binding MirrorPaletteSolutionExample.Colors}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="6" Columns="5"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                BorderBrush="{StaticResource WordleBorderBrush}"
+                BorderThickness="1"
+                Background="{Binding Color, Converter={StaticResource BoxColorConverter}}">
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </Grid>
+        </Border>
+        <!-- OLD MISSONE SECTION
+        <Border Grid.Row="3" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="2,0,0,2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
                    Text="Missing One Matches"
                    Foreground="{StaticResource WordleWhiteBrush}"
                    FontSize="24"
@@ -197,6 +253,7 @@
 
             </Grid>
         </Border>
+        -->
 
     </Grid>
 </UserControl>

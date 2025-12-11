@@ -11,6 +11,7 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
     private SolutionExampleVM _exactSolutionExample;
     private SolutionExampleVM _shapeSolutionExample;
     private SolutionExampleVM _missOneSolutionExample;
+    private SolutionExampleVM _mirrorPaletteSolutionExample;
 
     public SolutionExampleVM ExactSolutionExample
     {
@@ -42,6 +43,16 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         }
     }
 
+    public SolutionExampleVM MirrorPaletteSolutionExample
+    {
+        get { return _mirrorPaletteSolutionExample; }
+        private set
+        {
+            _mirrorPaletteSolutionExample = value;
+            PropertyChanged?.Invoke(this, new(nameof(MirrorPaletteSolutionExample)));
+        }
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public SolutionsBrowserViewModel(IWordleEngine engine, ISolutionToExampleMapper mapper)
@@ -54,6 +65,7 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         ExactSolutionExample = new();
         ShapeSolutionExample = new();
         MissOneSolutionExample = new();
+        MirrorPaletteSolutionExample = new();
     }
 
     private void SolutionsReadyHandler(object? sender, DrawingSolutionDTO DTO)
@@ -72,6 +84,7 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         bool exactExampleUpdated = false;
         bool shapeExampleUpdated = false;
         bool missOneExampleUpdated = false;
+        bool mirrorPaletteExampleUpdated = false;
         foreach (CategorySolutionResult categorySolution in DTO.categorySolutions)
         {
             if (categorySolution.solutions.Count == 0)
@@ -110,6 +123,12 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
                 UpdateExample(SolutionType.MissOne, categorySolution.solutions[0]);
                 missOneExampleUpdated = true;
             }
+
+            if (categorySolution.category == SolutionType.MirrorPalette && mirrorPaletteExampleUpdated == false)
+            {
+                UpdateExample(SolutionType.MirrorPalette, categorySolution.solutions[0]);
+                mirrorPaletteExampleUpdated = true;
+            }
         }
     }
 
@@ -132,6 +151,11 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
                 MissOneSolutionExample = example;
                 PropertyChanged?.Invoke(this, new(nameof(MissOneSolutionExample)));
                 break;
+
+            case SolutionType.MirrorPalette:
+                MirrorPaletteSolutionExample = example;
+                PropertyChanged?.Invoke(this, new(nameof(MirrorPaletteSolutionExample)));
+                break;
         }
     }
 
@@ -140,6 +164,7 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         ExactSolutionExample = new();
         ShapeSolutionExample = new();
         MissOneSolutionExample = new();
+        MirrorPaletteSolutionExample = new();
     }
     /* TODO_MID: Make the intense logic calls async so they dont block the UI out. Also add some UI element for when solving is in progress, maybe a small animation.
 

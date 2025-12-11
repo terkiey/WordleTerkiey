@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace API;
+﻿namespace API;
 
 internal class DrawingSolverBrute : IDrawingSolver
 {
@@ -54,7 +52,27 @@ internal class DrawingSolverBrute : IDrawingSolver
         categorySolutions.Add(_categorySolution);
         _solutionList.Clear();
 
-        // record MissOne solution.
+        // record Mirrored + Palette Swap Positions
+        List<BoardClue> mirrorBoards = _boardMapper.MapToMirrors(userDrawing);
+
+        List<BoardClue> mirroredPaletteBoards = [];
+        foreach (BoardClue mirrorBoard in mirrorBoards)
+        {
+            mirroredPaletteBoards.Add(mirrorBoard);
+            mirroredPaletteBoards.AddRange(_boardMapper.MapToShape(mirrorBoard));
+        }
+
+        foreach (BoardClue toSolve in mirroredPaletteBoards)
+        {
+            Solution boardSolution = ExactSolve(toSolve);
+            _solutionList.Add(boardSolution);
+        }
+
+        _categorySolution = new(SolutionType.MirrorPalette, _solutionList.ToList());
+        categorySolutions.Add(_categorySolution);
+        _solutionList.Clear();
+
+        /* // record MissOne boards
         List<BoardClue> missOneBoards = _boardMapper.MapToMissOne(userDrawing);
         foreach (BoardClue board in missOneBoards)
         {
@@ -64,7 +82,7 @@ internal class DrawingSolverBrute : IDrawingSolver
 
         _categorySolution = new(SolutionType.MissOne, _solutionList.ToList());
         categorySolutions.Add(_categorySolution);
-        _solutionList.Clear();
+        _solutionList.Clear(); */
 
         return new(validate, categorySolutions);
     }
