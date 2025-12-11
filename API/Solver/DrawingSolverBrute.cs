@@ -222,5 +222,6 @@ internal class DrawingSolverBrute : IDrawingSolver
     private void AnswerChangedHandler(object? sender, WordleWord answerWord)
     {
         _cachedSolutions.Clear();
+        _cachedDrawings.Clear();
     }
 }
