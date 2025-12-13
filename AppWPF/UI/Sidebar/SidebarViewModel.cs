@@ -32,8 +32,8 @@ public class SidebarViewModel : ISidebarViewModel
         _ => ColorCycleCommandHandler());
 
         // TODO_HIGH: Make the solve command asynchronous so it doesnt lag the UI.
-        SolveCommand = new RelayCommand(
-        _ => SolveCommandHandler(),
+        SolveCommand = new RelayCommand(async
+        _ => await SolveCommandHandlerAsync(),
         _ => SolveCommandAllowed());
 
         CustomWordCommand = new RelayCommand(
@@ -73,6 +73,23 @@ public class SidebarViewModel : ISidebarViewModel
 
         StateChanged = false;
         PropertyChanged?.Invoke(this, new(nameof(StateChanged)));
+    }
+
+    private async Task SolveCommandHandlerAsync()
+    {
+        StateChanged = false;
+        PropertyChanged?.Invoke(this, new(nameof(StateChanged)));
+        _drawingPanel.UpdateSolveState(SolveState.Solving);
+
+        try
+        {
+            BoardClue userDrawing = _drawingPanel.GetBoard();
+            await Task.Run(() => _engine.SolveDrawing(userDrawing));
+        }
+        finally
+        {
+            _drawingPanel.UpdateSolveState(SolveState.Done);
+        }
     }
 
     private bool SolveCommandAllowed()

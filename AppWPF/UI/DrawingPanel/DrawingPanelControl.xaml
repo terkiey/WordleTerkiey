@@ -87,5 +87,14 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <TextBlock 
+            Grid.Row="3" Grid.Column="0" 
+            Grid.ColumnSpan="2" 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Text="{Binding SolveStateText}"
+            Foreground="{StaticResource WordleWhiteBrush}">
+        </TextBlock>
     </Grid>
 </UserControl>

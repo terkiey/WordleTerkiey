@@ -6,16 +6,49 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace AppWPF;
 
 public class DrawingPanelViewModel : IDrawingPanelViewModel
 {
     private readonly IWordleEngine _engine;
-    private BoxColor DrawingColor = BoxColor.Yellow;
 
-    public string AnswerHeader { get; private set; } = "";
+    private BoxColor DrawingColor = BoxColor.Yellow;
+    private string _answerHeader = "";
+    private SolveState _solveState = SolveState.None;
+
+    private DispatcherTimer? _progressTimer;
+    private int _solveProgressIndex = 0;
+    private readonly string[] _progressStates = { "", ".", "..", "..." };
+    private string _progressText => _progressStates[_solveProgressIndex];
+
+    public string AnswerHeader 
+    { 
+        get { return _answerHeader; }
+        private set
+        {
+            _answerHeader = value;
+            PropertyChanged?.Invoke(this, new(nameof(AnswerHeader)));
+        }
+    }
+
     public ObservableCollection<DrawingGridCell> Cells { get; private set; } = [];
+    public SolveState SolveState
+    {
+        get { return _solveState; }
+        private set
+        {
+            _solveState = value;
+            PropertyChanged?.Invoke(this, new(nameof(SolveState)));
+            PropertyChanged?.Invoke(this, new(nameof(SolveStateText)));
+        }
+    }
+
+    public string SolveStateText
+    {
+        get { return TranslateSolveState(); }
+    }
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<EventArgs>? DrawingChanged;
@@ -47,6 +80,8 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
         ClearBoxCommand = new RelayCommand(
         parameters => ClearBoxCommandHandler((DrawingGridCell)parameters!));
         */
+
+        DrawingChanged += (_, _) => UpdateSolveState(SolveState.None);
     }
 
     public async Task ColorBoxInCommandHandlerAsync(DrawingGridCell? cell)
@@ -134,11 +169,67 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
         return DrawingColor;
     }
 
+    public void UpdateSolveState(SolveState state)
+    {
+        if (SolveState == SolveState.Solving && state != SolveState.Solving)
+        {
+            StopSolvingAnimation();
+            SolveState = state;
+            return;
+        }
+
+        if (state == SolveState.Solving)
+        {
+            SolveState = state;
+            StartSolvingAnimation();
+            return;
+        }
+    }
+
+    private string TranslateSolveState()
+    {
+        switch (_solveState)
+        {
+            case SolveState.None:
+                return "Ready to solve";
+
+            case SolveState.Solving:
+                return "Currently solving" + _progressText;
+
+            case SolveState.Done:
+                return "Solve request completed!";
+
+            default:
+                return "something is fucked";
+        }
+    }
+
+    private void StartSolvingAnimation()
+    {
+        _progressTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(200)
+        };
+        _progressTimer.Tick += (s, e) =>
+        {
+            _solveProgressIndex = (_solveProgressIndex + 1) % _progressStates.Length;
+            PropertyChanged?.Invoke(this, new(nameof(SolveStateText)));
+        };
+        _progressTimer.Start();
+    }
+
+    private void StopSolvingAnimation()
+    {
+        _progressTimer?.Stop();
+        _progressTimer = null;
+        _solveProgressIndex = 0;
+    }
+
     private void AnswerWordChangedHandler(object? sender, WordleWord answerWord)
     {
         string AnswerString = answerWord.ToString();
         AnswerHeader = "Today's Wordle: " + AnswerString;
-        PropertyChanged?.Invoke(this, new(nameof(AnswerHeader)));
+        SolveState = SolveState.None;
     }
 
     private void InitialiseCells()

@@ -10,6 +10,7 @@ public interface IDrawingPanelViewModel : INotifyPropertyChanged
 {
     string AnswerHeader { get; }
     ObservableCollection<DrawingGridCell> Cells { get; }
+    string SolveStateText { get; }
 
     event EventHandler<EventArgs>? DrawingChanged;
 
@@ -25,4 +26,5 @@ public interface IDrawingPanelViewModel : INotifyPropertyChanged
     bool IsBoardEmpty();
     void ClearBoard();
     BoxColor CycleColor();
+    void UpdateSolveState(SolveState state);
 }
