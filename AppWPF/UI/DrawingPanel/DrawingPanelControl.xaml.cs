@@ -93,17 +93,21 @@ public partial class DrawingPanelControl : UserControl
         {
             var cellVm = foundBorder.DataContext;
 
-            if (ReferenceEquals(_lastCell, cellVm))
-                return;
+            if (cellVm is DrawingGridCell cell)
+            {
 
-            _lastCell = cellVm;
+                if (ReferenceEquals(_lastCell, cell))
+                    return;
 
-            var rootVm = (DrawingPanelViewModel)DataContext;
+                _lastCell = cell;
 
-            if (_isLeftDrag)
-                await rootVm.ColorBoxInCommand.ExecuteAsync((DrawingGridCell)cellVm);
-            else if (_isRightDrag)
-                await rootVm.ClearBoxCommand.ExecuteAsync((DrawingGridCell)cellVm);
+                var rootVm = (DrawingPanelViewModel)DataContext;
+
+                if (_isLeftDrag)
+                    await rootVm.ColorBoxInCommand.ExecuteAsync((DrawingGridCell)cell);
+                else if (_isRightDrag)
+                    await rootVm.ClearBoxCommand.ExecuteAsync((DrawingGridCell)cell);
+            }
         }
     }
 }   
