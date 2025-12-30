@@ -177,6 +177,4 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
      * 
      * Then, clicking a pattern opens a further window (or navigates deeper into the panel), allowing the user to browse all of the possible words that give each row of the solution.
      */
-
-     /* TODO_HIGH: Replace MissOne solves with rotated solves (horizontal flip, and vertical flip, and both) */
 }
