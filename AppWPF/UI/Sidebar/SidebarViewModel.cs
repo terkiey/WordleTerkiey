@@ -17,6 +17,13 @@ public class SidebarViewModel : ISidebarViewModel
 
     private bool StateChanged = true;
 
+    private bool _drawingValidity = true;
+    private bool DrawingValidityState 
+    {
+        get { return _drawingValidity; }
+        set { _drawingValidity = value; }
+    }
+
     public BoxColor ColorPicker { get; private set; }
 
     public SidebarViewModel(IDrawingPanelViewModel drawingPanel, IWordleEngine engine)
@@ -31,7 +38,6 @@ public class SidebarViewModel : ISidebarViewModel
         ColorCycleCommand = new RelayCommand(
         _ => ColorCycleCommandHandler());
 
-        // TODO_HIGH: Make the solve command asynchronous so it doesnt lag the UI.
         SolveCommand = new RelayCommand(async
         _ => await SolveCommandHandlerAsync(),
         _ => SolveCommandAllowed());
@@ -94,7 +100,7 @@ public class SidebarViewModel : ISidebarViewModel
 
     private bool SolveCommandAllowed()
     {
-        return StateChanged && (_engine.ValidateDrawing(_drawingPanel.GetBoard()) == DrawingValidation.Valid);
+        return StateChanged && DrawingValidityState;
     }
 
     private void CustomWordCommandHandler()

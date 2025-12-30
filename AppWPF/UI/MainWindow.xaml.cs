@@ -13,5 +13,10 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = viewModel;
 
+        DrawingPanel.UserDrawingDragCompleted += (s, e) =>
+        {
+            var panelVM = (DrawingPanelViewModel)DrawingPanel.DataContext;
+            panelVM.UserDrawingDragInputFinished();
+        };
     }
 }

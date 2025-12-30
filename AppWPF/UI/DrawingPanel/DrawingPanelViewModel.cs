@@ -16,8 +16,12 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
 
     private BoxColor DrawingColor = BoxColor.Yellow;
     private string _answerHeader = "";
-    private SolveState _solveState = SolveState.None;
 
+    // drawing validation stuff
+
+
+    // solver progress stuff
+    private SolveState _solveState = SolveState.None;
     private DispatcherTimer? _progressTimer;
     private int _solveProgressIndex = 0;
     private readonly string[] _progressStates = { "", ".", "..", "..." };
@@ -186,6 +190,22 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
         }
     }
 
+    public void UserDrawingDragInputFinished()
+    {
+        CheckDrawingValidity();
+    }
+
+    private void CheckDrawingValidity()
+    {
+        DrawingValidation validation = _engine.ValidateDrawing(GetBoard());
+        switch (validation)
+        {
+            case DrawingValidation.Unspecified:
+                break;
+        }
+        // TODO_HIGH: Finish this, incorporate so the solve button state actually reflects the drawing validity again properly.
+    }
+
     private string TranslateSolveState()
     {
         switch (_solveState)
@@ -208,7 +228,7 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
     {
         _progressTimer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMilliseconds(200)
+            Interval = TimeSpan.FromMilliseconds(100)
         };
         _progressTimer.Tick += (s, e) =>
         {

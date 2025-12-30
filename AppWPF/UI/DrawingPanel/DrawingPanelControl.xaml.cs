@@ -17,6 +17,8 @@ public partial class DrawingPanelControl : UserControl
 
     private object? _lastCell;
 
+    public event EventHandler? UserDrawingDragCompleted;
+
     public DrawingPanelControl()
     {
         InitializeComponent();
@@ -60,6 +62,8 @@ public partial class DrawingPanelControl : UserControl
 
         var itemsControl = sender as UIElement;
         itemsControl?.ReleaseMouseCapture();
+
+        UserDrawingDragCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     private void ItemsControl_PreviewRightMouseButtonUp(object sender, MouseButtonEventArgs e)
@@ -69,6 +73,8 @@ public partial class DrawingPanelControl : UserControl
 
         var itemsControl = sender as UIElement;
         itemsControl?.ReleaseMouseCapture();
+
+        UserDrawingDragCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     private async Task ActivateItemUnderMouseAsync()

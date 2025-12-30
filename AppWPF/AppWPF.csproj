@@ -66,4 +66,10 @@
     <ProjectReference Include="..\API\API.csproj" />
   </ItemGroup>
 
+	<PropertyGroup>
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	</PropertyGroup>
+
 </Project>

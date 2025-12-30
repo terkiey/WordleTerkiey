@@ -28,8 +28,8 @@
         </Grid.ColumnDefinitions>
 
         <local:SidebarControl x:Name="Sidebar" Grid.Row="0" Grid.Column="1" DataContext="{Binding SidebarVM}" />
-        <local:DrawingPanelControl Grid.Row="0" Grid.Column="2" DataContext="{Binding DrawingPanelVM}"/>
-        <local:SolutionsBrowserControl Grid.Row="0" Grid.Column="3" DataContext="{Binding SolutionsBrowserVM}"/>
+        <local:DrawingPanelControl x:Name="DrawingPanel" Grid.Row="0" Grid.Column="2" DataContext="{Binding DrawingPanelVM}"/>
+        <local:SolutionsBrowserControl x:Name="SolutionsBrowser" Grid.Row="0" Grid.Column="3" DataContext="{Binding SolutionsBrowserVM}"/>
     </Grid>
 
 
