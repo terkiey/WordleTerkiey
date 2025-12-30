@@ -1,4 +1,6 @@
-﻿namespace API;
+﻿using System.Reflection;
+
+namespace API;
 
 internal class GuessableWordService : IGuessableWordService
 {
@@ -11,8 +13,8 @@ internal class GuessableWordService : IGuessableWordService
     private static HashSet<WordleWord> ReadTxtWords()
     {
         HashSet<WordleWord> guessableWords = [];
-        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Dictionary", "GuessableWords", "guessableWords.txt");
-        string text = File.ReadAllText(path);
+        string path = "API.Dictionary.GuessableWords.guessableWords.txt";
+        string text = ReadEmbeddedText(path);
 
         string[] words = text.Split(' ');
         foreach (string word in words)
@@ -22,5 +24,16 @@ internal class GuessableWordService : IGuessableWordService
         }
 
         return guessableWords;
+    }
+
+    private static string ReadEmbeddedText(string path)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+
+        using Stream stream = assembly.GetManifestResourceStream(path)
+            ?? throw new InvalidOperationException($"Resource not found: {path}");
+
+        using StreamReader reader = new(stream);
+        return reader.ReadToEnd();
     }
 }
