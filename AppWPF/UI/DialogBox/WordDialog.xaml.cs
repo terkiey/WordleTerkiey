@@ -39,13 +39,13 @@ public partial class WordDialog : Window, INotifyPropertyChanged
         CancelCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(
                         CancelCommandHandler);
 
-        UserInput = "wordy";
+        UserInput = "Type your 5 letter word here!";
 
         InitializeComponent();
 
         DataContext = this;
 
-  
+        Loaded += WordDialogLoaded;
     }
 
     private void OkCommandHandler()
@@ -69,5 +69,14 @@ public partial class WordDialog : Window, INotifyPropertyChanged
     {
         base.OnContentRendered(e);
         UserInputTextBox.Focus();
+    }
+
+    private void WordDialogLoaded(object sender, RoutedEventArgs e)
+    {
+        // Focus the textbox
+        UserInputTextBox.Focus();
+
+        // Select all text
+        UserInputTextBox.SelectAll();
     }
 }

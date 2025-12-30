@@ -19,4 +19,14 @@ public partial class MainWindow : Window
             panelVM.UserDrawingDragInputFinished();
         };
     }
+
+    public new void Show()
+    {
+        // Call original show method
+        base.Show();
+
+        // Now prompt the user to input today's answer.
+        var sidebarVM = (SidebarViewModel)Sidebar.DataContext;
+        sidebarVM.PromptAnswerInput();
+    }
 }

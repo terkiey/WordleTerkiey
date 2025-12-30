@@ -55,6 +55,11 @@ public class SidebarViewModel : ISidebarViewModel
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<BoxColor>? ColorCycled;
 
+    public void PromptAnswerInput()
+    {
+        CustomWordCommandHandler();
+    }
+
     // ICommand Relays
     private void ClearCommandHandler()
     {
