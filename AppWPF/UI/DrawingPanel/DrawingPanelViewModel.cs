@@ -18,7 +18,20 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
     private string _answerHeader = "";
 
     // drawing validation stuff
-
+    DrawingValidation _drawingValidity = DrawingValidation.Valid;
+    private DrawingValidation DrawingValidityState 
+    {
+        get
+        {
+            return _drawingValidity;
+        }
+        set
+        {
+            _drawingValidity = value;
+            PropertyChanged?.Invoke(this, new(nameof(DrawingValidityState)));
+            PropertyChanged?.Invoke(this, new(nameof(SolveStateText)));
+        }
+    }
 
     // solver progress stuff
     private SolveState _solveState = SolveState.None;
@@ -56,6 +69,7 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<EventArgs>? DrawingChanged;
+    public event EventHandler<DrawingValidation>? DrawingValidityChecked;
 
     /*
     public ICommand ColorBoxInCommand { get; }
@@ -197,31 +211,49 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
 
     private void CheckDrawingValidity()
     {
-        DrawingValidation validation = _engine.ValidateDrawing(GetBoard());
-        switch (validation)
+        // This is where the drawing panel can do something special if the board is invalid, then it notifies via an event so the other UI elements can use that info if they want.
+        DrawingValidityState = _engine.ValidateDrawing(GetBoard());
+        switch (DrawingValidityState)
         {
             case DrawingValidation.Unspecified:
+                throw new ArgumentException("Drawing validity state was not assigned.");
+
+            case DrawingValidation.Valid:
+                DrawingValidityChecked?.Invoke(this, DrawingValidityState);
+                break;
+
+            case DrawingValidation.EarlyAnswer:
+                DrawingValidityChecked?.Invoke(this, DrawingValidityState);
+                break;
+
+            case DrawingValidation.ImpossibleRow:
+                DrawingValidityChecked?.Invoke(this, DrawingValidityState);
                 break;
         }
-        // TODO_HIGH: Finish this, incorporate so the solve button state actually reflects the drawing validity again properly.
     }
 
     private string TranslateSolveState()
     {
-        switch (_solveState)
+        if (DrawingValidityState == DrawingValidation.EarlyAnswer)
         {
-            case SolveState.None:
-                return "Ready to solve";
-
-            case SolveState.Solving:
-                return "Currently solving" + _progressText;
-
-            case SolveState.Done:
-                return "Solve request completed!";
-
-            default:
-                return "something is fucked";
+            return "Drawing is invalid... Early correct answer row detected.";
         }
+        else if (DrawingValidityState == DrawingValidation.ImpossibleRow)
+        {
+            return "Drawing is invalid... Impossible row detected (4 green 1 yellow).";
+        }
+        else if (DrawingValidityState != DrawingValidation.Valid)
+        {
+            return "Drawing is invalid...";
+        }
+
+        return _solveState switch
+        {
+            SolveState.None => "Ready to solve",
+            SolveState.Solving => "Currently solving" + _progressText,
+            SolveState.Done => "Solve request completed!",
+            _ => "something is fucked",
+        };
     }
 
     private void StartSolvingAnimation()

@@ -13,6 +13,7 @@ public interface IDrawingPanelViewModel : INotifyPropertyChanged
     string SolveStateText { get; }
 
     event EventHandler<EventArgs>? DrawingChanged;
+    event EventHandler<DrawingValidation>? DrawingValidityChecked;
 
     AsyncRelayCommand<DrawingGridCell> ColorBoxInCommand { get; }
     AsyncRelayCommand<DrawingGridCell> ClearBoxCommand { get; }

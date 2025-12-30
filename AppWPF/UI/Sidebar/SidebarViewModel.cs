@@ -47,6 +47,7 @@ public class SidebarViewModel : ISidebarViewModel
 
         _engine.AnswerWordChanged += AnswerWordChangedHandler;
         _drawingPanel.DrawingChanged += DrawingChangedHandler;
+        _drawingPanel.DrawingValidityChecked += DrawingValidityCheckedHandler;
 
         ColorCycleCommandHandler();
     }
@@ -161,5 +162,19 @@ public class SidebarViewModel : ISidebarViewModel
     {
         StateChanged = true;
         PropertyChanged?.Invoke(this, new(nameof(StateChanged)));
+    }
+
+    private void DrawingValidityCheckedHandler(object? sender, DrawingValidation validation)
+    {
+        // This is where the sidebar receives the drawing validity state (from the drawing panel event) and updates the retained state info so the solve button can reflect that.
+        if (validation == DrawingValidation.Valid)
+        {
+            DrawingValidityState = true;
+        }
+        else
+        {
+            DrawingValidityState = false;
+        }
+        CommandManager.InvalidateRequerySuggested();
     }
 }
