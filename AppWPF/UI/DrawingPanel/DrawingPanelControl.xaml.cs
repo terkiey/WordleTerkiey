@@ -118,10 +118,5 @@ public partial class DrawingPanelControl : UserControl
     }
 }   
 
-/* TODO_HIGH: Indicate live when the drawing is invalid, and highlight the culprits.
- * I imagine this will require rejigging the drawing validation object to contain information on the culprit(s) locations.
- * Will need to use my skills gained from doing the hover things to decide how to adjust the view to show this, thinking some text,and then red borders to indicate problem cells.
- */
-
  /* TODO_MID: Allow hold shift and draw in order to draw in the 'other' color from what is selected in the colorpicker button.
   */
