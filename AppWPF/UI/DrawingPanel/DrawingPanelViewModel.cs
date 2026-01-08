@@ -71,11 +71,6 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
     public event EventHandler<EventArgs>? DrawingChanged;
     public event EventHandler<DrawingValidation>? DrawingValidityChecked;
 
-    /*
-    public ICommand ColorBoxInCommand { get; }
-    public ICommand ClearBoxCommand { get; }
-    */
-
     public AsyncRelayCommand<DrawingGridCell> ColorBoxInCommand { get; }
     public AsyncRelayCommand<DrawingGridCell> ClearBoxCommand { get; }
 
@@ -87,17 +82,8 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
         
         InitialiseCells();
 
-
         ColorBoxInCommand = new AsyncRelayCommand<DrawingGridCell>(ColorBoxInCommandHandlerAsync);
         ClearBoxCommand = new AsyncRelayCommand<DrawingGridCell>(ClearBoxCommandHandlerAsync);
-
-        /*
-        ColorBoxInCommand = new RelayCommand(
-        parameters => ColorBoxInCommandHandler((DrawingGridCell)parameters!));
-
-        ClearBoxCommand = new RelayCommand(
-        parameters => ClearBoxCommandHandler((DrawingGridCell)parameters!));
-        */
 
         DrawingChanged += (_, _) => UpdateSolveState(SolveState.None);
     }
@@ -118,13 +104,6 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
     
         if (cell == null) { return; }
         cell.Color = BoxColor.Black;
-        DrawingChanged?.Invoke(this, EventArgs.Empty);
-        PropertyChanged?.Invoke(this, new(nameof(Cells)));
-    }
-
-    public void ColorBoxInCommandHandler(DrawingGridCell cell)
-    {
-        cell.Color = DrawingColor;
         DrawingChanged?.Invoke(this, EventArgs.Empty);
         PropertyChanged?.Invoke(this, new(nameof(Cells)));
     }
