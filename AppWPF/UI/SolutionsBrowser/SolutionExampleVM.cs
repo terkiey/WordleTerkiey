@@ -4,15 +4,13 @@ using System.ComponentModel;
 
 namespace AppWPF;
 
-public class SolutionExampleVM : INotifyPropertyChanged
+public class SolutionExampleVM
 {
     public ObservableCollection<ColorBoxVM> Colors { get; set; }
         = new ObservableCollection<ColorBoxVM>(Enumerable.Range(0, 30)
             .Select(_ => new ColorBoxVM(BoxColor.Black)));
 
     public ObservableCollection<string> Words { get; private set; }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     public SolutionExampleVM() 
     {
