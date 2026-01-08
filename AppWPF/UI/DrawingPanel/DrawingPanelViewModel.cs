@@ -15,6 +15,7 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
     private readonly IWordleEngine _engine;
 
     private BoxColor DrawingColor = BoxColor.Yellow;
+    public bool IsShiftHeld { get; set; } = false;
     private string _answerHeader = "";
 
     // drawing validation stuff
@@ -93,7 +94,17 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
         await Task.Yield();
 
         if (cell == null) { return; }
-        cell.Color = DrawingColor;
+        BoxColor paintColor = DrawingColor;
+        if (IsShiftHeld)
+        {
+            paintColor = paintColor switch
+            {
+                BoxColor.Yellow => BoxColor.Green,
+                BoxColor.Green => BoxColor.Yellow,
+                _ => throw new ArgumentException("Paint color should only ever be green or yellow."),
+            };
+        }
+        cell.Color = paintColor;
         DrawingChanged?.Invoke(this, EventArgs.Empty);
         PropertyChanged?.Invoke(this, new(nameof(Cells)));
     }
