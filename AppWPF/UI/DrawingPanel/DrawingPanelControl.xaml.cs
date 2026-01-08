@@ -117,13 +117,13 @@ public partial class DrawingPanelControl : UserControl
         }
     }
 
-    private async Task CallColorBoxInCommand(DrawingGridCell cell, DrawingPanelViewModel VM)
+    private static async Task CallColorBoxInCommand(DrawingGridCell cell, DrawingPanelViewModel VM)
     {
         SyncShiftState(VM);
         await VM.ColorBoxInCommand.ExecuteAsync(cell);
     }
 
-    private void SyncShiftState(DrawingPanelViewModel VM)
+    private static void SyncShiftState(DrawingPanelViewModel VM)
     {
         bool actualShiftState = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
         if (VM.IsShiftHeld != actualShiftState)

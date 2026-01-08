@@ -122,14 +122,7 @@ public class SidebarViewModel : ISidebarViewModel
     }
 
     // Dialog Openers
-    private void DisplayMessageDialog(string messageText)
-    {
-        var dialog = new MessageDialog(messageText);
-        dialog.Owner = Application.Current.MainWindow;
-        dialog.ShowDialog();
-    }
-
-    private WordleWord? DisplayWordDialog(string DefaultText, WordDialog dialog)
+    private static WordleWord? DisplayWordDialog(string DefaultText, WordDialog dialog)
     {
         dialog.UserInputTextBox.Text = DefaultText;
         dialog.Owner = Application.Current.MainWindow;
@@ -138,7 +131,7 @@ public class SidebarViewModel : ISidebarViewModel
 
         if (result == true)
         {
-            WordleWord word = new("ERROR");
+            WordleWord word;
             string? userValue = dialog.UserInput;
             if (userValue is null) { return null; }
             try

@@ -8,10 +8,10 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
     private readonly IWordleEngine _engine;
     private readonly ISolutionToExampleMapper _mapper;
 
-    private SolutionExampleVM _exactSolutionExample;
-    private SolutionExampleVM _shapeSolutionExample;
-    private SolutionExampleVM _missOneSolutionExample;
-    private SolutionExampleVM _mirrorPaletteSolutionExample;
+    private SolutionExampleVM _exactSolutionExample = new();
+    private SolutionExampleVM _shapeSolutionExample = new();
+    private SolutionExampleVM _missOneSolutionExample = new();
+    private SolutionExampleVM _mirrorPaletteSolutionExample = new();
 
     public SolutionExampleVM ExactSolutionExample
     {
@@ -61,18 +61,13 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         _engine.SolutionsReady += SolutionsReadyHandler;
 
         _mapper = mapper;
-
-        ExactSolutionExample = new();
-        ShapeSolutionExample = new();
-        MissOneSolutionExample = new();
-        MirrorPaletteSolutionExample = new();
     }
 
     private void SolutionsReadyHandler(object? sender, DrawingSolutionDTO DTO)
     {
         if (DTO.drawingValidation != DrawingValidation.Valid)
         {
-            throw new ArgumentOutOfRangeException(nameof(DTO.drawingValidation), "Drawing was invalid, solution should not have been requested!");
+            throw new InvalidOperationException("Drawing was invalid, solution should not have been requested!");
         }
 
         ClearExamples();

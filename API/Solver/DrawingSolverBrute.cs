@@ -5,8 +5,8 @@ internal class DrawingSolverBrute : IDrawingSolver
     private readonly IWordleDictionary _wordleDictionary;
     private readonly IBoardMapper _boardMapper;
 
-    private Dictionary<WordClue, HashSet<WordleWord>> _cachedSolutions = [];
-    private Dictionary<WordleWord, WordClue> _cachedDrawings = [];
+    private readonly Dictionary<WordClue, HashSet<WordleWord>> _cachedSolutions = [];
+    private readonly Dictionary<WordleWord, WordClue> _cachedDrawings = [];
 
     public WordleWord AnswerWord => _wordleDictionary.AnswerWord;
     public HashSet<WordleWord> GuessableWords => _wordleDictionary.AllowedWords;
@@ -34,7 +34,7 @@ internal class DrawingSolverBrute : IDrawingSolver
         // Record exact solution.
         Solution exactSolution = ExactSolve(userDrawing);
         _solutionList.Add(exactSolution);
-        _categorySolution = new(SolutionType.Exact, _solutionList.ToList());
+        _categorySolution = new(SolutionType.Exact, [.. _solutionList]);
         categorySolutions.Add(_categorySolution);
         _solutionList.Clear();
 
@@ -48,7 +48,7 @@ internal class DrawingSolverBrute : IDrawingSolver
             _solutionList.Add(boardSolution);
         }
    
-        _categorySolution = new(SolutionType.Shape, _solutionList.ToList());
+        _categorySolution = new(SolutionType.Shape, [.. _solutionList]);
         categorySolutions.Add(_categorySolution);
         _solutionList.Clear();
 
@@ -68,7 +68,7 @@ internal class DrawingSolverBrute : IDrawingSolver
             _solutionList.Add(boardSolution);
         }
 
-        _categorySolution = new(SolutionType.MirrorPalette, _solutionList.ToList());
+        _categorySolution = new(SolutionType.MirrorPalette, [.. _solutionList]);
         categorySolutions.Add(_categorySolution);
         _solutionList.Clear();
 
@@ -96,8 +96,7 @@ internal class DrawingSolverBrute : IDrawingSolver
         {
             WordClue rowDrawing = userDrawing[rowIndex];
             // Check cache for the rowDrawing and just use that as the solution words if present.
-            HashSet<WordleWord>? cachedWords;
-            if (_cachedSolutions.TryGetValue(rowDrawing, out cachedWords))
+            if (_cachedSolutions.TryGetValue(rowDrawing, out HashSet<WordleWord>? cachedWords))
             {
                 solutionWords[rowIndex] = cachedWords;
                 continue;
@@ -170,14 +169,7 @@ internal class DrawingSolverBrute : IDrawingSolver
         {
             WordleLetter answerLetter = AnswerWord[letterIndex];
             // Count answer letters.
-            if (answerLetterCountDict.ContainsKey(answerLetter))
-            {
-                answerLetterCountDict[answerLetter]++;
-            }
-            else
-            {
-                answerLetterCountDict.Add(answerLetter, 1);
-            }
+            answerLetterCountDict[answerLetter] = answerLetterCountDict.GetValueOrDefault(answerLetter) + 1;
         }
 
         WordClue drawnRow = new();
@@ -189,7 +181,7 @@ internal class DrawingSolverBrute : IDrawingSolver
             WordleLetter guessLetter = guess[letterIndex];
             WordleLetter answerLetter = AnswerWord[letterIndex];
 
-            bool guessPresentInHits = letterHitsDict.TryGetValue(guessLetter, out int letterHits);
+            bool guessPresentInHits = letterHitsDict.TryGetValue(guessLetter, out _);
 
             if (guessLetter == answerLetter)
             {
@@ -209,8 +201,6 @@ internal class DrawingSolverBrute : IDrawingSolver
         for (int letterIndex = 0; letterIndex < 5; letterIndex++)
         {
             WordleLetter guessLetter = guess[letterIndex];
-            WordleLetter answerLetter = AnswerWord[letterIndex];
-
             bool guessPresentInHits = letterHitsDict.TryGetValue(guessLetter, out int letterHits);
             bool guessPresentInAnswer = answerLetterCountDict.TryGetValue(guessLetter, out int answerLetterCount);
             if (guessPresentInAnswer && drawnRow[letterIndex] != BoxColor.Green)

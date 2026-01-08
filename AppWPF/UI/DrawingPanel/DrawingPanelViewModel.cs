@@ -38,8 +38,8 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
     private SolveState _solveState = SolveState.None;
     private DispatcherTimer? _progressTimer;
     private int _solveProgressIndex = 0;
-    private readonly string[] _progressStates = { "", ".", "..", "..." };
-    private string _progressText => _progressStates[_solveProgressIndex];
+    private readonly string[] _progressStates =  ["", ".", "..", "..." ];
+    private string ProgressText => _progressStates[_solveProgressIndex];
 
     public string AnswerHeader 
     { 
@@ -240,7 +240,7 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
         return _solveState switch
         {
             SolveState.None => "Ready to solve",
-            SolveState.Solving => "Currently solving" + _progressText,
+            SolveState.Solving => "Currently solving" + ProgressText,
             SolveState.Done => "Solve request completed!",
             _ => "something is fucked",
         };

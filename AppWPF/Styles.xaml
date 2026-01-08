@@ -37,14 +37,14 @@
 
                         <!-- HOVER EFFECT -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Overlay" Property="Opacity" Value="0.9"/>
+                            <Setter TargetName="Overlay" Property="Opacity" Value="0.5"/>
                             <Setter TargetName="Overlay" Property="Background" Value="#FFBEE6FD"/>
                             <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF3C7FB1"/>
                         </Trigger>
 
                         <!-- PRESSED EFFECT -->
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Overlay" Property="Opacity" Value="0.9"/>
+                            <Setter TargetName="Overlay" Property="Opacity" Value="0.5"/>
                             <Setter TargetName="Overlay" Property="Background" Value="#FFC4E5F6"/>
                             <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF2C628B"/>
                         </Trigger>
