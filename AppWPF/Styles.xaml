@@ -9,11 +9,15 @@
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="Margin" Value="0,0,0,10"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="ToolTip" Value="Placeholder tooltip" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Background="Transparent">
+                        <Grid.Clip>
+                            <RectangleGeometry Rect="0,0,50,50" RadiusX="6" RadiusY="6"/>
+                        </Grid.Clip>
                         <Border x:Name="BaseBackground"
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="6"/>
@@ -49,12 +53,17 @@
                             <Setter TargetName="Overlay" Property="BorderBrush" Value="#FF2C628B"/>
                         </Trigger>
 
+                        <!-- BUTTON DISABLED EFFECT -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Overlay" Property="Opacity" Value="0.7"/>
+                            <Setter TargetName="Overlay" Property="Background" Value="Gray"/>
+                            <Setter TargetName="Overlay" Property="BorderBrush" Value="DarkGray"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
-        <Setter Property="ToolTip" Value="Placeholder tooltip" />
     </Style>
 
     <Style x:Key="ColorPickerButtonStyle" TargetType="Button">
