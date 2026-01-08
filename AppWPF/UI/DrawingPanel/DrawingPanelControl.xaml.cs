@@ -131,7 +131,4 @@ public partial class DrawingPanelControl : UserControl
             VM.IsShiftHeld = actualShiftState;
         }
     }
-}   
-
- /* TODO_MID: Allow hold shift and draw in order to draw in the 'other' color from what is selected in the colorpicker button.
-  */
+}

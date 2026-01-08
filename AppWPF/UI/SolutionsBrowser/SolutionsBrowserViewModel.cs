@@ -166,7 +166,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         MissOneSolutionExample = new();
         MirrorPaletteSolutionExample = new();
     }
-    /* TODO_MID: Make the intense logic calls async so they dont block the UI out. Also add some UI element for when solving is in progress, maybe a small animation.
 
     /* TODO_HIGH: Turn each solution-type panel into a user-control to reduce code verbosity and allow me to uniformly make design changes to them without having to make
      * the changes one time for each panel.
