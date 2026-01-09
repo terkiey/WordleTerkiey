@@ -32,10 +32,10 @@
         <local:ExampleShowControl ExampleName="Exact Matches" Grid.Row="1"
             SolutionExampleVM="{Binding ExactSolutionExample}"/>
 
-        <local:ExampleShowControl ExampleName="Palette-Swap Matches" Grid.Row="2"
+        <local:ExampleShowControl ExampleName="Palette Swap Matches" Grid.Row="2"
             SolutionExampleVM="{Binding ShapeSolutionExample}"/>
 
-        <local:ExampleShowControl ExampleName="Mirror &amp; Palette-Swap Matches" Grid.Row="3"
+        <local:ExampleShowControl ExampleName="Mirror &amp; Palette Swap Matches" Grid.Row="3"
             SolutionExampleVM="{Binding MirrorPaletteSolutionExample}"/>
 
     </Grid>

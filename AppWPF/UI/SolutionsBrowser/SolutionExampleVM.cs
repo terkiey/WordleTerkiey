@@ -12,6 +12,8 @@ public class SolutionExampleVM
 
     public ObservableCollection<string> Words { get; private set; }
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public SolutionExampleVM() 
     {
         ObservableCollection<string> _words = [];
@@ -26,5 +28,8 @@ public class SolutionExampleVM
     {
         Colors = colors;
         Words = words;
+        PropertyChanged?.Invoke(this, new(nameof(NoData)));
     }
+
+    public bool NoData => Words.Contains("");
 }
