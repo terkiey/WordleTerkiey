@@ -5,7 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AppWPF"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             
+             PreviewMouseMove="DrawingPanelControl_PreviewMouseMove">
+
+    <UserControl.Resources>
+        <Style x:Key="HoverableBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{StaticResource WordleBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="Yellow"/>
+                    <Setter Property="BorderThickness" Value="3"/>
+                </Trigger>
+
+                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                    <Setter Property="BorderBrush" Value="Yellow"/>
+                    <Setter Property="BorderThickness" Value="3"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -34,7 +55,6 @@
         <ItemsControl Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Cells}" x:Name="GridItemsControl"
                       PreviewMouseLeftButtonDown="ItemsControl_PreviewMouseLeftButtonDown"
                       PreviewMouseRightButtonDown="ItemsControl_PreviewMouseRightButtonDown"
-                      PreviewMouseMove="ItemsControl_PreviewMouseMove"
                       PreviewMouseLeftButtonUp="ItemsControl_PreviewLeftMouseButtonUp"
                       PreviewMouseRightButtonUp="ItemsControl_PreviewRightMouseButtonUp"
                       Cursor="Hand">
@@ -52,37 +72,9 @@
             </ItemsControl.ItemContainerStyle>
 
             <ItemsControl.ItemTemplate>
-                <!--
                 <DataTemplate>
-                    <Button Margin="3"
-                    BorderThickness="2"
-                    Background="{Binding Color, Converter={StaticResource BoxColorConverter}}"
-                    Cursor="Hand">
-                    Command="{Binding DataContext.ColorBoxInCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    CommandParameter="{Binding}"
-                    
-                        <Button.InputBindings>
-                            <MouseBinding Gesture="RightClick"
-                                Command="{Binding DataContext.ClearBoxCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                CommandParameter="{Binding}"/>
-                        </Button.InputBindings>
-                </Button>
-                </DataTemplate>
-                -->
-
-                <DataTemplate>
-                    <Border Margin="3" Background="{Binding Color, Converter={StaticResource BoxColorConverter}}" 
-                            BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="2" Cursor="Hand" IsHitTestVisible="True">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="BorderBrush" Value="Yellow"/>
-                                        <Setter Property="BorderThickness" Value="3"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
+                    <Border Margin="3" Background="{Binding Color, Converter={StaticResource BoxColorConverter}}" Cursor="Hand"
+                            IsHitTestVisible="True" Style="{StaticResource HoverableBorder}">
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

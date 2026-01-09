@@ -24,4 +24,15 @@ public class DrawingGridCell : INotifyPropertyChanged
         Column = column;
         Color = new BoxColor();
     }
+
+    private bool _isHighlighted = false;
+    public bool IsHighlighted 
+    { 
+        get => _isHighlighted;
+        set 
+        { 
+            _isHighlighted = value; 
+            PropertyChanged?.Invoke(this, new(nameof(IsHighlighted)));
+        }
+    }
 }

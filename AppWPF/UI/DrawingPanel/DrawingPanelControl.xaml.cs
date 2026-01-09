@@ -15,7 +15,8 @@ public partial class DrawingPanelControl : UserControl
     private bool _isLeftDrag;
     private bool _isRightDrag;
 
-    private object? _lastCell;
+    private DrawingGridCell? _lastCellPainted;
+    private DrawingGridCell? _lastCellHovered;
 
     public event EventHandler? UserDrawingDragCompleted;
 
@@ -27,7 +28,7 @@ public partial class DrawingPanelControl : UserControl
     private void ItemsControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         _isLeftDrag = true;
-        _lastCell = null; // reset last painted cell
+        _lastCellPainted = null; // reset last painted cell
 
         var itemsControl = sender as UIElement;
         itemsControl?.CaptureMouse();
@@ -38,7 +39,7 @@ public partial class DrawingPanelControl : UserControl
     private void ItemsControl_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
         _isRightDrag = true;
-        _lastCell = null;
+        _lastCellPainted = null;
 
         // Capture the mouse to the ItemsControl
         var itemsControl = sender as UIElement;
@@ -47,38 +48,43 @@ public partial class DrawingPanelControl : UserControl
         _ = ActivateItemUnderMouseAsync();
     }
 
-    private void ItemsControl_PreviewMouseMove(object sender, MouseEventArgs e)
+    private void DrawingPanelControl_PreviewMouseMove(object sender, MouseEventArgs e)
     {
-        if (_isLeftDrag || _isRightDrag)
+        // Process what to do if the mouse is outside the cell grid.
+        var pos = e.GetPosition(GridItemsControl);
+        if (pos.X < 0 || pos.Y < 0 || pos.X > GridItemsControl.ActualWidth || pos.Y > GridItemsControl.ActualHeight)
         {
-            _ = ActivateItemUnderMouseAsync();
+            if (_lastCellHovered != null)
+            {
+                _lastCellHovered.IsHighlighted = false;
+                _lastCellHovered = null;
+            }
+        }
+
+        // Process what to do if the mouse is over a cell.
+        else if (TryGetCellUnderMouse(out DrawingGridCell? cell))
+        {
+            if (_isLeftDrag || _isRightDrag)
+            {
+                _ = PaintCellAsync(cell!);
+            }
+
+            // Hovering a new cell.
+            if (_lastCellHovered != cell!)
+            {
+                if (_lastCellHovered != null)
+                {
+                    _lastCellHovered.IsHighlighted = false;
+                }
+                cell!.IsHighlighted = true;
+                _lastCellHovered = cell;
+            }
         }
     }
 
-    private void ItemsControl_PreviewLeftMouseButtonUp(object sender, MouseButtonEventArgs e)
+    private bool TryGetCellUnderMouse(out DrawingGridCell? cellUnderMouse)
     {
-        _isLeftDrag = false;
-        _lastCell = null;
-
-        var itemsControl = sender as UIElement;
-        itemsControl?.ReleaseMouseCapture();
-
-        UserDrawingDragCompleted?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void ItemsControl_PreviewRightMouseButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        _isRightDrag = false;
-        _lastCell = null;
-
-        var itemsControl = sender as UIElement;
-        itemsControl?.ReleaseMouseCapture();
-
-        UserDrawingDragCompleted?.Invoke(this, EventArgs.Empty);
-    }
-
-    private async Task ActivateItemUnderMouseAsync()
-    {
+        cellUnderMouse = null;
         var itemsControl = this.GridItemsControl;
 
         // Get mouse position relative to the ItemsControl
@@ -86,7 +92,7 @@ public partial class DrawingPanelControl : UserControl
 
         // Perform hit test
         var hit = VisualTreeHelper.HitTest(itemsControl, pos);
-        if (hit == null) return;
+        if (hit == null) return false;
 
         // Walk up visual tree until we find a Border with a DataContext
         var dep = hit.VisualHit;
@@ -101,19 +107,56 @@ public partial class DrawingPanelControl : UserControl
 
             if (cellVm is DrawingGridCell cell)
             {
-
-                if (ReferenceEquals(_lastCell, cell))
-                    return;
-
-                _lastCell = cell;
-
-                var rootVm = (DrawingPanelViewModel)DataContext;
-
-                if (_isLeftDrag)
-                    await CallColorBoxInCommand((DrawingGridCell)cell, rootVm);
-                else if (_isRightDrag)
-                    await rootVm.ClearBoxCommand.ExecuteAsync((DrawingGridCell)cell);
+                cellUnderMouse = cell;
+                return true;
             }
+        }
+        return false;
+    }
+
+    private void ItemsControl_PreviewLeftMouseButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        _isLeftDrag = false;
+        _lastCellPainted = null;
+
+        var itemsControl = sender as UIElement;
+        itemsControl?.ReleaseMouseCapture();
+
+        UserDrawingDragCompleted?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void ItemsControl_PreviewRightMouseButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        _isRightDrag = false;
+        _lastCellPainted = null;
+
+        var itemsControl = sender as UIElement;
+        itemsControl?.ReleaseMouseCapture();
+
+        UserDrawingDragCompleted?.Invoke(this, EventArgs.Empty);
+    }
+
+    private async Task PaintCellAsync(DrawingGridCell cell)
+    {
+        var rootVm = (DrawingPanelViewModel)DataContext;
+
+        if (_isLeftDrag)
+            await CallColorBoxInCommand((DrawingGridCell)cell, rootVm);
+        else if (_isRightDrag)
+            await rootVm.ClearBoxCommand.ExecuteAsync((DrawingGridCell)cell);
+
+        _lastCellPainted = cell;
+    }
+
+    private async Task ActivateItemUnderMouseAsync()
+    {
+        if (TryGetCellUnderMouse(out DrawingGridCell? cell))
+        {
+            // Dont paint if same cell as last painted.
+            if (ReferenceEquals(_lastCellPainted, cell))
+                return;
+
+            await PaintCellAsync(cell!);
         }
     }
 
