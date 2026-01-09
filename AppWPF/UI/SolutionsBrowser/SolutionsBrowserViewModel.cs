@@ -167,4 +167,8 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
      * 
      * Then, clicking a pattern opens a further window (or navigates deeper into the panel), allowing the user to browse all of the possible words that give each row of the solution.
      */
+
+    /* TODO_MID: This should conditionally show the user control to show the a category example (put those into user controls btw),
+    * when no example is available, it should indicate as such with a different user control that it swaps in place to show that class of solution is impossible.
+    */
 }

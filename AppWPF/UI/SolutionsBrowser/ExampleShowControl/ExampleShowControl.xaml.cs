@@ -13,31 +13,12 @@ public partial class ExampleShowControl : UserControl
         InitializeComponent();
     }
 
-    public IEnumerable<string> Words
-    {
-        get => (IEnumerable<string>)GetValue(WordsProperty);
-        set => SetValue(WordsProperty, value);
-    }
-
-    public static readonly DependencyProperty WordsProperty =
+    public static readonly DependencyProperty ExampleNameProperty =
         DependencyProperty.Register(
-            nameof(Words),
-            typeof(IEnumerable<string>),
+            nameof(ExampleName),
+            typeof(string),
             typeof(ExampleShowControl),
-            new PropertyMetadata(null));
-
-    public IEnumerable<ColorBoxVM> Colors
-    {
-        get => (IEnumerable<ColorBoxVM>)GetValue(ColorsProperty);
-        set => SetValue(ColorsProperty, value);
-    }
-
-    public static readonly DependencyProperty ColorsProperty =
-        DependencyProperty.Register(
-            nameof(Colors),
-            typeof(IEnumerable<ColorBoxVM>),
-            typeof(ExampleShowControl),
-            new PropertyMetadata(null));
+            new PropertyMetadata(string.Empty));
 
     public string ExampleName
     {
@@ -45,10 +26,18 @@ public partial class ExampleShowControl : UserControl
         set => SetValue(ExampleNameProperty, value);
     }
 
-    public static readonly DependencyProperty ExampleNameProperty =
+    public static readonly DependencyProperty SolutionExampleVMProperty =
         DependencyProperty.Register(
-            nameof(ExampleName),
-            typeof(string),
+            nameof(SolutionExampleVM),
+            typeof(SolutionExampleVM),
             typeof(ExampleShowControl),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(null));
+
+    public SolutionExampleVM SolutionExampleVM
+    {
+        get => (SolutionExampleVM)GetValue(SolutionExampleVMProperty);
+        set => SetValue(SolutionExampleVMProperty, value);
+    }
+
+    
 }

@@ -27,7 +27,7 @@
                    TextWrapping="Wrap"
                    />
 
-            <ItemsControl Grid.Column="1" ItemsSource="{Binding Words, ElementName=ExampleShow}">
+            <ItemsControl Grid.Column="1" ItemsSource="{Binding SolutionExampleVM.Words, ElementName=ExampleShow}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="6"/>
@@ -44,7 +44,7 @@
             </ItemsControl>
 
 
-            <ItemsControl Grid.Column="2" ItemsSource="{Binding Colors, ElementName=ExampleShow}">
+            <ItemsControl Grid.Column="2" ItemsSource="{Binding SolutionExampleVM.Colors, ElementName=ExampleShow}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="6" Columns="5"/>

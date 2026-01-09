@@ -30,13 +30,13 @@
         </Border>
 
         <local:ExampleShowControl ExampleName="Exact Matches" Grid.Row="1"
-            Words="{Binding ExactSolutionExample.Words}" Colors="{Binding ExactSolutionExample.Colors}"/>
+            SolutionExampleVM="{Binding ExactSolutionExample}"/>
 
         <local:ExampleShowControl ExampleName="Palette-Swap Matches" Grid.Row="2"
-            Words="{Binding ShapeSolutionExample.Words}" Colors="{Binding ShapeSolutionExample.Colors}"/>
+            SolutionExampleVM="{Binding ShapeSolutionExample}"/>
 
         <local:ExampleShowControl ExampleName="Mirror &amp; Palette-Swap Matches" Grid.Row="3"
-            Words="{Binding MirrorPaletteSolutionExample.Words}" Colors="{Binding MirrorPaletteSolutionExample.Colors}"/>
+            SolutionExampleVM="{Binding MirrorPaletteSolutionExample}"/>
 
     </Grid>
 </UserControl>
