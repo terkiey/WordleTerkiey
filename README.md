@@ -1,4 +1,4 @@
 ## Download
 
-You can download the latest Windows executable here:
+You can download the latest release Windows executable here:
 👉 https://github.com/terkiey/WordleTerkiey/releases/latest
