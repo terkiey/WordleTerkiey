@@ -93,6 +93,7 @@
             Grid.ColumnSpan="2" 
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
+            Margin="5,0,0,0"
             Text="{Binding SolveStateText}"
             Foreground="{StaticResource WordleWhiteBrush}">
         </TextBlock>
