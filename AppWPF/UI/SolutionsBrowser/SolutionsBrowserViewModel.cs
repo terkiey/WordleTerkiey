@@ -10,7 +10,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
 
     private SolutionExampleVM _exactSolutionExample = new();
     private SolutionExampleVM _shapeSolutionExample = new();
-    private SolutionExampleVM _missOneSolutionExample = new();
     private SolutionExampleVM _mirrorPaletteSolutionExample = new();
 
     public SolutionExampleVM ExactSolutionExample
@@ -30,16 +29,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         {
             _shapeSolutionExample = value;
             PropertyChanged?.Invoke(this, new(nameof(ShapeSolutionExample)));
-        }
-    }
-
-    public SolutionExampleVM MissOneSolutionExample
-    {
-        get { return _missOneSolutionExample; }
-        private set
-        {
-            _missOneSolutionExample = value;
-            PropertyChanged?.Invoke(this, new(nameof(MissOneSolutionExample)));
         }
     }
 
@@ -78,7 +67,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
     {
         bool exactExampleUpdated = false;
         bool shapeExampleUpdated = false;
-        bool missOneExampleUpdated = false;
         bool mirrorPaletteExampleUpdated = false;
         foreach (CategorySolutionResult categorySolution in DTO.categorySolutions)
         {
@@ -113,12 +101,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
                 shapeExampleUpdated = true;
             }
 
-            if (categorySolution.category == SolutionType.MissOne && missOneExampleUpdated == false)
-            {
-                UpdateExample(SolutionType.MissOne, categorySolution.solutions[0]);
-                missOneExampleUpdated = true;
-            }
-
             if (categorySolution.category == SolutionType.MirrorPalette && mirrorPaletteExampleUpdated == false)
             {
                 UpdateExample(SolutionType.MirrorPalette, categorySolution.solutions[0]);
@@ -142,11 +124,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
                 PropertyChanged?.Invoke(this, new(nameof(ShapeSolutionExample)));
                 break;
 
-            case SolutionType.MissOne:
-                MissOneSolutionExample = example;
-                PropertyChanged?.Invoke(this, new(nameof(MissOneSolutionExample)));
-                break;
-
             case SolutionType.MirrorPalette:
                 MirrorPaletteSolutionExample = example;
                 PropertyChanged?.Invoke(this, new(nameof(MirrorPaletteSolutionExample)));
@@ -158,7 +135,6 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
     {
         ExactSolutionExample = new();
         ShapeSolutionExample = new();
-        MissOneSolutionExample = new();
         MirrorPaletteSolutionExample = new();
     }
     /* TODO_MID: Allow the user to click the panel for a type of solution, which opens a window, or adjusts the solutionbrowser pannel, whatever, it will have these features:

@@ -6,5 +6,5 @@ public interface ISolutionsBrowserViewModel : INotifyPropertyChanged
 {
     SolutionExampleVM ExactSolutionExample { get; }
     SolutionExampleVM ShapeSolutionExample { get; }
-    SolutionExampleVM MissOneSolutionExample { get; }
+    SolutionExampleVM MirrorPaletteSolutionExample { get; }
 }

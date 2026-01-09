@@ -72,18 +72,6 @@ internal class DrawingSolverBrute : IDrawingSolver
         categorySolutions.Add(_categorySolution);
         _solutionList.Clear();
 
-        /* // record MissOne boards
-        List<BoardClue> missOneBoards = _boardMapper.MapToMissOne(userDrawing);
-        foreach (BoardClue board in missOneBoards)
-        {
-            Solution boardSolution = ExactSolve(board);
-            _solutionList.Add(boardSolution);
-        }
-
-        _categorySolution = new(SolutionType.MissOne, _solutionList.ToList());
-        categorySolutions.Add(_categorySolution);
-        _solutionList.Clear(); */
-
         return new(validate, categorySolutions);
     }
 

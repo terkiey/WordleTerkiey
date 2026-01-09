@@ -2,9 +2,8 @@
 
 public enum SolutionType
 {
-Unspecified = 0,
-Exact = 1,
-Shape = 2,
-MissOne = 3,
-MirrorPalette = 4,
+    Unspecified = 0,
+    Exact = 1,
+    Shape = 2,
+    MirrorPalette = 3,
 }

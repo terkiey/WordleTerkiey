@@ -14,9 +14,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TitleBar" Height="50"/>
-            <RowDefinition x:Name="ExactMatches" Height="*"/>
-            <RowDefinition x:Name="ShapeMatches" Height="*"/>
-            <RowDefinition x:Name="MissOneMatches" Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" x:Name="TitleBarBorder" Background="{StaticResource WordleBlackBrush}" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="2,0,0,2">

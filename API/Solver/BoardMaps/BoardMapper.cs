@@ -5,7 +5,6 @@ namespace API;
 internal class BoardMapper : IBoardMapper
 {
     Dictionary<BoardClue, List<BoardClue>> _cachedShapeMaps = [];
-    Dictionary<BoardClue, List<BoardClue>> _cachedMissOneMaps = [];
     Dictionary<BoardClue, List<BoardClue>> _cachedMirrorMaps = [];
 
     public List<BoardClue> MapToShape(BoardClue boardClue)
@@ -79,30 +78,6 @@ internal class BoardMapper : IBoardMapper
         }
 
         _cachedShapeMaps.Add(boardClue, outputBoards);
-        return outputBoards;
-    }
-
-    public List<BoardClue> MapToMissOne(BoardClue boardClue)
-    {
-        if (_cachedMissOneMaps.TryGetValue(boardClue, out List<BoardClue>? cachedMap))
-        {
-            return cachedMap;
-        }
-
-        List<BoardClue> outputBoards = [];
-        for (int rowIndex = 0; rowIndex < 6; rowIndex++)
-        {
-            for (int colIndex = 0; colIndex < 5; colIndex++)
-            {
-                BoardClue missOneBoard = new BoardClue(boardClue);
-
-                if (missOneBoard[rowIndex][colIndex] == BoxColor.Black) { continue; }
-                missOneBoard[rowIndex][colIndex] = BoxColor.Black;
-                outputBoards.Add(missOneBoard);
-            }
-        }
-
-        outputBoards.Select(bc => bc != boardClue);
         return outputBoards;
     }
 
