@@ -1,5 +1,7 @@
 ﻿using API;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace AppWPF;
 /// <summary>
@@ -10,5 +12,14 @@ public partial class SolutionsWindow : Window
     public SolutionsWindow()
     {
         InitializeComponent();
+        Loaded += OnLoaded;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is SolutionsBrowserViewModel vm)
+        {
+            vm.CloseSolutionBrowser += (_, _) => Close();
+        }
     }
 }

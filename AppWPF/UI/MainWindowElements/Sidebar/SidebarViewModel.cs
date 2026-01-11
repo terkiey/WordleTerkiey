@@ -39,7 +39,7 @@ public class SidebarViewModel : ISidebarViewModel
         _ => ColorCycleCommandHandler());
 
         SolveCommand = new RelayCommand(async
-        _ => await SolveCommandHandlerAsync(),
+        board => await SolveCommandHandlerAsync(board),
         _ => SolveCommandAllowed());
 
         CustomWordCommand = new RelayCommand(
@@ -87,7 +87,8 @@ public class SidebarViewModel : ISidebarViewModel
         PropertyChanged?.Invoke(this, new(nameof(StateChanged)));
     }
 
-    private async Task SolveCommandHandlerAsync()
+    // TODO_MID: Figure out how I want to deal with the fact this command is effectively replicated here and in the solution browser...
+    private async Task SolveCommandHandlerAsync(object? board)
     {
         StateChanged = false;
         PropertyChanged?.Invoke(this, new(nameof(StateChanged)));
@@ -95,8 +96,16 @@ public class SidebarViewModel : ISidebarViewModel
 
         try
         {
-            BoardClue userDrawing = _drawingPanel.GetBoard();
-            await Task.Run(() => _engine.SolveDrawing(userDrawing));
+            if (board is not null && board is BoardClue userDrawing)
+            {
+                await Task.Run(() => _engine.SolveDrawing(userDrawing));
+            }
+            else
+            {
+                userDrawing = _drawingPanel.GetBoard();
+                await Task.Run(() => _engine.SolveDrawing(userDrawing));
+            }
+
         }
         finally
         {

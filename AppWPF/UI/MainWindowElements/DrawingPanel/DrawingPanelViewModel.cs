@@ -199,6 +199,19 @@ public class DrawingPanelViewModel : IDrawingPanelViewModel
         CheckDrawingValidity();
     }
 
+    public void LoadBoard(BoardClue board)
+    {
+        var wordClues = board.WordClueArray;
+        int index = 0;
+        foreach(var wordClue in wordClues)
+        {
+            foreach(var letterClue in wordClue)
+            {
+                Cells[index++].Color = letterClue;
+            }
+        }
+    }
+
     private void CheckDrawingValidity()
     {
         // This is where the drawing panel can do something special if the board is invalid, then it notifies via an event so the other UI elements can use that info if they want.

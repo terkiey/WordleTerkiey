@@ -11,25 +11,34 @@
     <Window.Resources>
         <!-- The color grid for a single boardclue -->
         <DataTemplate x:Key="BoardGridTemplate">
-            <ItemsControl ItemsSource="{Binding outputBoard, Converter={StaticResource SolutionBoardConverter}}"
-                          Width="150" Height="180" Margin="10,3,10,20">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="6" Columns="5"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+            <Grid Background="Transparent">
+                <Grid.InputBindings>
+                    <MouseBinding Gesture="LeftClick"
+                          Command="{Binding DataContext.LoadAndSolveSolutionCommand,
+                                            RelativeSource={RelativeSource AncestorType=Window}}"
+                          CommandParameter="{Binding outputBoard}"/>
+                </Grid.InputBindings>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border
+                <ItemsControl ItemsSource="{Binding outputBoard, Converter={StaticResource SolutionBoardConverter}}"
+                          Width="150" Height="180" Margin="10,3,10,20">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="6" Columns="5"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
                             BorderBrush="{StaticResource WordleBorderBrush}"
                             Width="20" Height="20"
                             BorderThickness="1"
                             Background="{Binding Converter={StaticResource BoxColorConverter}}">
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
         </DataTemplate>
     </Window.Resources>
 

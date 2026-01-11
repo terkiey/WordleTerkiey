@@ -31,11 +31,24 @@ public class MainWindowViewModel : IMainWindowViewModel, INotifyPropertyChanged
         SidebarVM = sidebarViewModel;
         SolutionsBrowserVM = solutionsBrowserViewModel;
         DrawingPanelVM = drawingPanelViewModel;
+
+        SolutionsBrowserVM.SolutionRequested += SolutionRequestedHandler;
+        SolutionsBrowserVM.NewDrawing += NewDrawingHandler;
     }
 
     private void AnswerWordChangedHandler(object? sender, WordleWord answerWord)
     {
         WindowAnswer = " - " + answerWord.ToString();
         PropertyChanged?.Invoke(this, new(nameof(WindowTitle)));
+    }
+
+    private void SolutionRequestedHandler(object? sender, BoardClue board)
+    {
+        SidebarVM.SolveCommand.Execute(board);
+    }
+
+    private void NewDrawingHandler(object? sender, BoardClue drawing)
+    {
+        DrawingPanelVM.LoadBoard(drawing);
     }
 }

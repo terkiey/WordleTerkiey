@@ -86,8 +86,12 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+    public event EventHandler<BoardClue>? SolutionRequested;
+    public event EventHandler? CloseSolutionBrowser;
+    public event EventHandler<BoardClue>? NewDrawing;
 
     public CommunityToolkit.Mvvm.Input.RelayCommand<string> OpenSolutionCategoryCommand { get; }
+    public CommunityToolkit.Mvvm.Input.RelayCommand<BoardClue> LoadAndSolveSolutionCommand { get; }
 
 
     public SolutionsBrowserViewModel(IWordleEngine engine, ISolutionToExampleMapper mapper)
@@ -98,6 +102,7 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         _mapper = mapper;
 
         OpenSolutionCategoryCommand = new (OpenSolutionCategoryCommandHandler);
+        LoadAndSolveSolutionCommand = new (LoadAndSolveSolutionCommandHandler);
     }
 
     private void SolutionsReadyHandler(object? sender, DrawingSolutionDTO DTO)
@@ -231,7 +236,7 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
     {
         if (categoryString is null)
         {
-            return;
+            throw new ArgumentException();
         }
 
         switch (categoryString.ToLower())
@@ -258,6 +263,18 @@ public class SolutionsBrowserViewModel : ISolutionsBrowserViewModel
         };
         PropertyChanged?.Invoke(this, new(nameof(CurrentSolutions)));
         solutionWindow.ShowDialog();
+    }
+
+    private void LoadAndSolveSolutionCommandHandler(BoardClue? outputBoard)
+    {
+        if (outputBoard is null)
+        {
+            throw new ArgumentException();
+        }
+
+        NewDrawing?.Invoke(this, outputBoard);
+        SolutionRequested?.Invoke(this, outputBoard);
+        CloseSolutionBrowser?.Invoke(this, EventArgs.Empty);
     }
 
     /* TODO_MID: Allow the user to click the panel for a type of solution, which opens a window, or adjusts the solutionbrowser panel, whatever, it will have these features:

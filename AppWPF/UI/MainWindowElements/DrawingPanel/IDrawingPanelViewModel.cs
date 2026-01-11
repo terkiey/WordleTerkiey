@@ -29,4 +29,5 @@ public interface IDrawingPanelViewModel : INotifyPropertyChanged
     BoxColor CycleColor();
     void UpdateSolveState(SolveState state);
     void UserDrawingDragInputFinished();
+    void LoadBoard(BoardClue boardClue);
 }
