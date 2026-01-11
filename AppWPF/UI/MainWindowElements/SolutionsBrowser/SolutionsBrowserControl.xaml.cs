@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using API;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace AppWPF;
 
@@ -11,4 +14,6 @@ public partial class SolutionsBrowserControl : UserControl
     {
         InitializeComponent();
     }
+
+  
 }

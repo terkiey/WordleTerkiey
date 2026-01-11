@@ -11,6 +11,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <local:BoxColorToBrushConverter x:Key="BoxColorConverter" />
+            <local:SolutionBoardConverter x:Key="SolutionBoardConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 

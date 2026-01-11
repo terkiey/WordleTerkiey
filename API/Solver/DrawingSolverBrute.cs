@@ -32,8 +32,10 @@ internal class DrawingSolverBrute : IDrawingSolver
         CategorySolutionResult _categorySolution;
 
         // Record exact solution.
-        Solution exactSolution = ExactSolve(userDrawing);
-        _solutionList.Add(exactSolution);
+        if (TryExactSolve(userDrawing, out Solution? boardSolution))
+        {
+            _solutionList.Add(boardSolution!);
+        }
         _categorySolution = new(SolutionType.Exact, [.. _solutionList]);
         categorySolutions.Add(_categorySolution);
         _solutionList.Clear();
@@ -44,8 +46,10 @@ internal class DrawingSolverBrute : IDrawingSolver
         {
             DrawingValidation validateBoard = ValidateDrawing(board);
             if (validateBoard != DrawingValidation.Valid) { continue; }
-            Solution boardSolution = ExactSolve(board);
-            _solutionList.Add(boardSolution);
+            if (TryExactSolve(board, out boardSolution))
+            {
+                _solutionList.Add(boardSolution!);
+            }
         }
    
         _categorySolution = new(SolutionType.Shape, [.. _solutionList]);
@@ -64,8 +68,10 @@ internal class DrawingSolverBrute : IDrawingSolver
 
         foreach (BoardClue toSolve in mirroredPaletteBoards)
         {
-            Solution boardSolution = ExactSolve(toSolve);
-            _solutionList.Add(boardSolution);
+            if (TryExactSolve(toSolve, out boardSolution))
+            {
+                _solutionList.Add(boardSolution!);
+            }
         }
 
         _categorySolution = new(SolutionType.MirrorPalette, [.. _solutionList]);
@@ -75,8 +81,9 @@ internal class DrawingSolverBrute : IDrawingSolver
         return new(validate, categorySolutions);
     }
 
-    private Solution ExactSolve(BoardClue userDrawing)
+    private bool TryExactSolve(BoardClue userDrawing, out Solution? solution)
     {
+        solution = null;
         SolutionWords solutionWords = new();
 
         // Loop over rows (word drawings).
@@ -87,25 +94,32 @@ internal class DrawingSolverBrute : IDrawingSolver
             if (_cachedSolutions.TryGetValue(rowDrawing, out HashSet<WordleWord>? cachedWords))
             {
                 solutionWords[rowIndex] = cachedWords;
-                continue;
             }
-
 
             // Check every guessable word, and if matches the output drawing, add to solution list, (and cache it)
-            foreach(WordleWord guess in GuessableWords)
+            else
             {
-                string test = guess.ToString().ToUpper();
-                WordClue testDraw = Draw(guess);
-                bool testComp = Draw(guess) == rowDrawing;
-                if (Draw(guess) == rowDrawing)
+                foreach (WordleWord guess in GuessableWords)
                 {
-                    solutionWords[rowIndex].Add(guess);
+                    string test = guess.ToString().ToUpper();
+                    WordClue testDraw = Draw(guess);
+                    bool testComp = Draw(guess) == rowDrawing;
+                    if (Draw(guess) == rowDrawing)
+                    {
+                        solutionWords[rowIndex].Add(guess);
+                    }
                 }
+                _cachedSolutions.Add(rowDrawing, solutionWords[rowIndex]);
             }
-            _cachedSolutions.Add(rowDrawing, solutionWords[rowIndex]);
+
+            if (solutionWords[rowIndex].Count == 0)
+            {
+                return false;
+            }
         }
 
-        return new Solution(userDrawing, solutionWords);
+        solution = new Solution(userDrawing, solutionWords);
+        return true;
     }
 
     public DrawingValidation ValidateDrawing(BoardClue userDrawing)

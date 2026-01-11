@@ -29,7 +29,7 @@ public class BoardClue : IEquatable<BoardClue>
 
     public bool Equals(BoardClue? otherBoardClue)
     {
-        if (otherBoardClue == null) return false;
+        if (otherBoardClue is null) return false;
         if (!otherBoardClue.WordClueArray.SequenceEqual(WordClueArray)) return false;
         return true;
     }
