@@ -68,6 +68,7 @@ internal class DrawingSolverBrute : IDrawingSolver
 
         foreach (BoardClue toSolve in mirroredPaletteBoards)
         {
+            if (ValidateDrawing(toSolve) != DrawingValidation.Valid) { continue; }
             if (TryExactSolve(toSolve, out boardSolution))
             {
                 _solutionList.Add(boardSolution!);
