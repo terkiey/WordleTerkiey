@@ -17,10 +17,6 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="BorderBrush" Value="Yellow"/>
                 </Trigger>
-
-                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
-                    <Setter Property="BorderBrush" Value="Yellow"/>
-                </DataTrigger>
             </Style.Triggers>
         </Style>
 
