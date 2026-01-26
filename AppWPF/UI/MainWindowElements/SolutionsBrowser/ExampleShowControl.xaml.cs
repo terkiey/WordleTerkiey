@@ -1,5 +1,4 @@
-﻿using API;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace AppWPF;
@@ -38,6 +37,4 @@ public partial class ExampleShowControl : UserControl
         get => (SolutionExampleVM)GetValue(SolutionExampleVMProperty);
         set => SetValue(SolutionExampleVMProperty, value);
     }
-
-    
 }
