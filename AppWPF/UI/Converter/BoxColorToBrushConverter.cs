@@ -14,7 +14,7 @@ public class BoxColorToBrushConverter : IValueConverter
         {
             return boxColor switch
             {
-                BoxColor.Black => Application.Current.Resources["WordleBlackBrush"],
+                BoxColor.Black => Application.Current.Resources["WordleBorderBrush"],
                 BoxColor.Yellow => Application.Current.Resources["WordleYellowBrush"],
                 BoxColor.Green => Application.Current.Resources["WordleGreenBrush"],
                 _ => Brushes.HotPink
