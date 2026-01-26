@@ -81,9 +81,6 @@ internal class BoardMapper : IBoardMapper
         return outputBoards;
     }
 
-    /* TODO_MID: Dont return symmetric mirrors, i.e. if after mirroring its equal to the original, then dont add it to the list.
-     * or I suppose just make it return a hashset of BoardClues and define the equality and hashcode stuff necessary...
-     */
     public List<BoardClue> MapToMirrors(BoardClue boardClue)
     {
         if (_cachedMirrorMaps.TryGetValue(boardClue, out List<BoardClue>? cachedMap))
@@ -91,12 +88,16 @@ internal class BoardMapper : IBoardMapper
             return cachedMap;
         }
 
-        List<BoardClue> outputBoards = [];
+        /* Use a HashSet so that we dont have duplicate mirrors caused by symmetry */
+        HashSet<BoardClue> outputBoards = [];
         outputBoards.Add(HorizontalMirror(VerticalMirror(boardClue)));
         outputBoards.Add(HorizontalMirror(boardClue));
         outputBoards.Add(VerticalMirror(boardClue));
 
-        return outputBoards;
+        /* Remove original board from mirrors list */
+        outputBoards.Remove(boardClue);
+
+        return [..outputBoards];
     }
 
     private BoardClue VerticalMirror(BoardClue boardClue)
