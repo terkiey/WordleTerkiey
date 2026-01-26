@@ -80,7 +80,7 @@
 
         <Border Grid.Row="2" BorderBrush="{StaticResource WordleBorderBrush}" BorderThickness="0,2,0,0">
             <TextBlock
-                Text="Double-click a pattern to load and solve it"
+                Text="Click on a pattern to load and solve it"
                 Foreground="{StaticResource WordleWhiteBrush}"
                 FontSize="20" 
                 HorizontalAlignment="Center"
