@@ -5,19 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppWPF"
         mc:Ignorable="d"
-        Title="WordleTerkiey - Solution Browser" Height="600" Width="600" MinHeight="400" MinWidth="400"
+        Title="WordleTerkiey - Solution Browser" Height="600" Width="700" MinHeight="400" MinWidth="400"
         ResizeMode="CanResize">
     
     <Window.Resources>
+        <!-- The definition for a hoverable border (copied from drawingPanelControl and slightly adjusted) -->
+        <Style x:Key="HoverableBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{StaticResource WordleBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="Yellow"/>
+                </Trigger>
+
+                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                    <Setter Property="BorderBrush" Value="Yellow"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <!-- The color grid for a single boardclue -->
         <DataTemplate x:Key="BoardGridTemplate">
-            <Grid Background="Transparent">
-                <Grid.InputBindings>
+            <Border Background="Transparent" Style="{StaticResource HoverableBorder}" Margin="5">
+                <Border.InputBindings>
                     <MouseBinding Gesture="LeftClick"
                           Command="{Binding DataContext.LoadAndSolveSolutionCommand,
                                             RelativeSource={RelativeSource AncestorType=Window}}"
                           CommandParameter="{Binding outputBoard}"/>
-                </Grid.InputBindings>
+                </Border.InputBindings>
 
                 <ItemsControl ItemsSource="{Binding outputBoard, Converter={StaticResource SolutionBoardConverter}}"
                           Width="150" Height="180" Margin="10,3,10,20">
@@ -38,7 +53,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </Grid>
+            </Border>
         </DataTemplate>
     </Window.Resources>
 
@@ -89,7 +104,4 @@
                 />
         </Border>
     </Grid>
-
-
-
 </Window>
