@@ -89,15 +89,18 @@ internal class BoardMapper : IBoardMapper
         }
 
         /* Use a HashSet so that we dont have duplicate mirrors caused by symmetry */
-        HashSet<BoardClue> outputBoards = [];
-        outputBoards.Add(HorizontalMirror(VerticalMirror(boardClue)));
-        outputBoards.Add(HorizontalMirror(boardClue));
-        outputBoards.Add(VerticalMirror(boardClue));
+        HashSet<BoardClue> newMirroredBoards = [];
+        newMirroredBoards.Add(HorizontalMirror(VerticalMirror(boardClue)));
+        newMirroredBoards.Add(HorizontalMirror(boardClue));
+        newMirroredBoards.Add(VerticalMirror(boardClue));
 
-        /* Remove original board from mirrors list */
-        outputBoards.Remove(boardClue);
+        /* Remove original board from mirrors set */
+        newMirroredBoards.Remove(boardClue);
+        List<BoardClue> outputBoards = [.. newMirroredBoards];
 
-        return [..outputBoards];
+        /* Add the mirror map to the cache */
+        _cachedMirrorMaps[boardClue] = outputBoards;
+        return outputBoards;
     }
 
     private BoardClue VerticalMirror(BoardClue boardClue)
