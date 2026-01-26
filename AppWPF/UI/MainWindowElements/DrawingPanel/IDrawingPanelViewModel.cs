@@ -18,11 +18,6 @@ public interface IDrawingPanelViewModel : INotifyPropertyChanged
     AsyncRelayCommand<DrawingGridCell> ColorBoxInCommand { get; }
     AsyncRelayCommand<DrawingGridCell> ClearBoxCommand { get; }
 
-    /*
-    ICommand ColorBoxInCommand { get; }
-    ICommand ClearBoxCommand { get; }
-    */
-
     BoardClue GetBoard();
     bool IsBoardEmpty();
     void ClearBoard();
