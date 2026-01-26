@@ -9,10 +9,16 @@ namespace AppWPF;
 /// </summary>
 public partial class SolutionsWindow : Window
 {
+    public ICommand CloseThisWindow { get; }
+
     public SolutionsWindow()
     {
         InitializeComponent();
         Loaded += OnLoaded;
+
+        CloseThisWindow = new RelayCommand(
+            _ => Close(),
+            null);
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
