@@ -74,7 +74,7 @@
         <Setter Property="Margin" Value="0,0,0,10"/>
         <Setter Property="Cursor" Value="Hand"/>
 
-        <Setter Property="ToolTip" Value="Cycle Color (2)"/>
+        <Setter Property="ToolTip" Value="Cycle Color &#10;Shortcut : 2&#10;Hold shift to use the alternate color when drawing."/>
 
         <Setter Property="Template">
             <Setter.Value>
